@@ -43,7 +43,7 @@ function invalidUserID(errorString)
 	$("#invalidUserID").text(errorString);
 }
 
-//Make sure password meets arbitrary assignment specification
+//Make sure password isn't blank
 function validatePassword(password)
 {
 	if (password =="")
@@ -51,32 +51,6 @@ function validatePassword(password)
 		invalidPassword("Please Enter a password!");
 		return false;
 	}
-	//Check string length
-	if (password.length < 6 || password.length > 12)
-		{
-			//A 12 character password limit is just dumb. Like this unit.
-			invalidPassword("Passwords must be between 6 - 12 characters.");
-			return false;
-		}
-		//Passwords must contain 1 cap and 1 lower min
-		if (!(password.match(/[a-z]/g) && password.match(/[A-Z]/g)))
-		{
-			invalidPassword("Passwords must contain at least one upper and one lower case letter.");
-			return false;
-		}
-		//Must contain a number
-		if(!(password.match(/[0-9]/g)))
-		{
-			invalidPassword("Passwords must contain at least one number.");
-			return false;
-		}
-		//Must contain special characters
-		if(!(password.match(/~|!|#|\$/g)))
-		{
-			invalidPassword("Passwords must contain one of the following characters ~ ! # $");
-			return false;
-		}
-
 		//Valid password
 		$("#userPasswordInput").removeClass("is-invalid").addClass("is-valid");
 		$("#invalidPassword").text("");
