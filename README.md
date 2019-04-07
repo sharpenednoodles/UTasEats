@@ -72,15 +72,14 @@ such as "large soy latte +3 sugars".
 Each menu is for the following day.
 
 ### User ID Ranges:
-```
-User Type
-- Director of the Board (e.g. DBnnnn)
- -Board Members (e.g. BMnnnn)
-- Café Managers (e.g. CMnnnn)
-- Café Staff  (e.g. CSnnnn)
-- UTAS Staff (e.g. UEnnnn)
-- UTAS Student (e.g. USnnnn)
-```
+| User Type | User Code Format |
+| ------------- |------------: |
+| Director of the Board   | DBnnnn   |
+| Board Members   | BMnnnn   |
+| Café managers   | CMnnnn   |
+| Café staff   | CSnnnn  |
+| UTAS Employees   | UEnnnn  |
+| UTAS Students | USnnnn  |
 
 ### Description of Task - Part 1 (15%)
 #### Home page
@@ -193,6 +192,7 @@ You are advised not to attempt these modifications until you have achieved a ful
 correctly functioning website that meets all of the Part 1 and Part 2a criteria.
 
 Order discounts will apply:
+
 | User  | Discount |
 | ------------- | ------------- |
 | Director of the Board   | 100%   |
@@ -234,7 +234,7 @@ characters O to 9 and the special ascii character the hyphen "—
 1. The domain part must have at least one period character but may not start or end with
 it and may not have 2 consecutive period characters.
 
-What a shitty assignment spec...
+What a *shitty* assignment spec...
 
 ## Authors
 
