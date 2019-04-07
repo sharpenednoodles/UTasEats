@@ -1,0 +1,76 @@
+/*
+ *override the jumbotron background
+ */
+.jumbotron {
+    border-top: 3px solid rgb(219, 219, 219);
+		background-color: #ffffff;
+		/*
+
+		Old style
+		background-image: url("../res/img/CafeBG.jpg");
+		background-size: cover
+		*/
+}
+
+/*
+Square buttons
+*/
+.btn {
+	border-radius: 0px;
+}
+
+/*
+ * Fancy splash screen style
+ */
+.splash {
+	text-shadow: 0 0 30px #000000;
+	padding-top: 30vh;
+}
+
+/*
+ * Background for homepage
+ */
+#splashHome {
+	background-image: url("../res/img/BarBG-D2.jpg");
+	background-size: cover;
+	padding-bottom: 0vh;
+}
+
+#splashLazenbys {
+	background-image: url("../res/img/LazenbysBG.jpg");
+	background-size: cover;
+}
+
+#splashSuzyLee {
+	background-image: url("../res/img/SuzyLeeBG.jpg");
+	background-size: cover;
+}
+
+#splashTradeTable {
+	background-image: url("../res/img/TradeTableBG.jpg");
+	background-size: cover;
+}
+/*
+Pad the body to allow a persistent navbar - currently disabled
+body {
+  padding: 58px 0 0 0;
+}
+*/
+body {
+	font-family: 'Raleway', sans-serif;
+	background-color: #e9ecef;
+}
+/*
+ *use flex boxes to keep footer down
+ *
+ *Code/concept from
+ *https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/
+ */
+.page-body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+.site-content {
+  flex: 1;
+}
