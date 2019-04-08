@@ -200,7 +200,7 @@ Order discounts will apply:
 | Café managers   | 15%   |
 | Café staff   | 10%  |
 | UTAS Students   | 7%  |
-| UTAS Employees  | 5%  |
+| UTAS Employees  | 0%  |
 
 All order totals are rounded to the nearest cent (i.e. a student order totalling $15.50 gets a
 discount of $1.085 making the new order total $14.415, which would be recorded/processed
