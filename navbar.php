@@ -28,6 +28,9 @@ LOGIN;
 					<a class="dropdown-item" href="tradetable.php">The Trade Table</a>
 				</div>
 			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="test.php">Test Playground</a>
+			</li>
 			<?php
 			//Only include this when logged in with sufficent privledges
 			switch((int)$_SESSION['accessLevel'])
