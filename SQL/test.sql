@@ -49,10 +49,10 @@ INSERT INTO foodType (name) VALUES('Food');
 INSERT INTO foodType (name) VALUES('Drink');
 
 -- masterfood list
-CREATE TABLE masterfoodlist (
+CREATE TABLE masterFoodList (
 	itemID smallint unsigned not null auto_increment,
 	name varchar(32) not null,
-	price varchar(5) not null,
+	price decimal(4,2) not null,
 	description TEXT,
 	type tinyint unsigned not null,
 	-- dates stored as yyyy-mm-dd type
@@ -64,29 +64,29 @@ CREATE TABLE masterfoodlist (
 ) ENGINE=InnoDB;
 
 -- DB to link cafe availabilities to food items
-CREATE TABLE foodCafes (
+CREATE TABLE item_to_cafe (
 	itemID smallint unsigned not null,
 	cafeID tinyint unsigned not null,
 	index(itemID),
 	index(cafeID),
-	foreign key (itemID) REFERENCES masterfoodlist(itemID),
+	foreign key (itemID) REFERENCES masterFoodList(itemID),
 	foreign key (cafeID) REFERENCES cafe(cafeID)
 ) ENGINE=InnoDB;
 
 -- Fill in with some sample data
-INSERT INTO masterfoodlist(name, price, description, type) VALUES('Coffee', '4', 'A standard crappy coffee', '2');
-INSERT INTO foodCafes VALUES (1, 1);
-INSERT INTO foodCafes VALUES (1, 2);
-INSERT INTO foodCafes VALUES (1, 3);
+INSERT INTO masterFoodList(name, price, description, type) VALUES('Coffee', 4, 'A standard crappy coffee', '2');
+INSERT INTO item_to_cafe VALUES (1, 1);
+INSERT INTO item_to_cafe VALUES (1, 2);
+INSERT INTO item_to_cafe VALUES (1, 3);
 
-INSERT INTO masterfoodlist(name, price, description, type) VALUES('Lazenbys Sample Item 1', '4', 'Sample Lazenbys food', '1');
-INSERT INTO foodCafes VALUES (2, 1);
+INSERT INTO masterFoodList(name, price, description, type) VALUES('Lazenbys Sample Item 1', 4, 'Sample Lazenbys food', '1');
+INSERT INTO item_to_cafe VALUES (2, 1);
 
-INSERT INTO masterfoodlist(name, price, description, type) VALUES('Suzy Lee Sample Item 1', '9.5', 'Sample Suzy lee food', '1');
-INSERT INTO foodCafes VALUES (3, 2);
+INSERT INTO masterFoodList(name, price, description, type) VALUES('Suzy Lee Sample Item 1', 9.5, 'Sample Suzy lee food', '1');
+INSERT INTO item_to_cafe VALUES (3, 2);
 
-INSERT INTO masterfoodlist(name, price, description, type) VALUES('Trade Table Sample Item 2', '3.2', 'Sample trade table drink', '2');
-INSERT INTO foodCafes VALUES (4, 3);
+INSERT INTO masterFoodList(name, price, description, type) VALUES('Trade Table Sample Item 2', 3.2, 'Sample trade table drink', '2');
+INSERT INTO item_to_cafe VALUES (4, 3);
 
 -- User Account types
 CREATE TABLE accountType (

@@ -119,7 +119,7 @@ HEAD;
 	 					</div>
 	 				</div>
 	 			</div>
-				<div class="col-sm-12 col-md-3">
+				<div class="col-sm-12 col-md-3 float-right">
 					<div class="card mb-4">
 						<div class="card-body">
 							<h5 class="card-title text-center">Item Controls</h5>

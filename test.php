@@ -68,14 +68,8 @@
 			<div class="col-sm-12 col-md-8">
 				<div class="card mb-4">
 					<div class="card-body text-center">
-						<h5 class=card-title>Database Table Sample</h5>
-							<?php
-							//Display our connection status
-							$queryString =  "SELECT masterfoodlist.name, price, description, foodType.name as type FROM masterfoodlist INNER JOIN foodType ON masterfoodlist.type=foodType.typeID";
-							?>
+						<h5 class=card-title>Database Master List Demo</h5>
 							<div class="text-left">
-
-
 							<table class="table table-hover table-striped table-bordered">
 								<thead class="thead-dark">
 									<tr>
@@ -83,22 +77,33 @@
 										<th>Price</th>
 										<th>Description</th>
 										<th>Type</th>
+										<th>Cafes</th>
 									</tr>
 								</thead>
 								<tbody>
 								<?php
 								//Populate our mysql_list_tables
-								$tableContent = $conn->query($queryString);
+								$tableContent = $conn->query($queryMasterList);
 								if ($tableContent->num_rows > 0)
 								{
+
 									while($row = $tableContent->fetch_assoc())
 									{
-										echo("<tr>");
-										echo("<td>" .$row["name"]."</td>");
-										echo("<td>$" .$row["price"].".00</td>");
-										echo("<td>" .$row["description"]."</td>");
-										echo("<td>" .$row["type"]."</td>");
-										echo("</tr>");
+										if ($row["itemID"] != $lastItemID)
+											{
+												echo("<tr>");
+												echo("<td>" .$row["item"]."</td>");
+												echo("<td>$" .$row["price"]."</td>");
+												echo("<td>" .$row["description"]."</td>");
+												echo("<td>" .$row["type"]."</td>");
+												echo("<td>" .$row["cafe"]);
+												//Use browser tags to auto close tags
+											}
+											else
+											{
+												echo(", ".$row["cafe"]);
+											}
+										$lastItemID = $row["itemID"];
 									}
 								}
 								 ?>
@@ -108,6 +113,153 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="col-sm-12 col-md-12">
+					<div class="card mb-4">
+						<div class="card-body text-center">
+							<h5 class=card-title>Lazenbys List Demo</h5>
+								<div class="text-left">
+								<table class="table table-hover table-striped table-bordered">
+									<thead class="thead-dark">
+										<tr>
+											<th>Name</th>
+											<th>Price</th>
+											<th>Description</th>
+											<th>Type</th>
+											<th>Cafes</th>
+										</tr>
+									</thead>
+									<tbody>
+									<?php
+									//Populate our mysql_list_tables
+									$tableContent = $conn->query($queryLazenbysList);
+									if ($tableContent->num_rows > 0)
+									{
+
+										while($row = $tableContent->fetch_assoc())
+										{
+											if ($row["itemID"] != $lastItemID)
+												{
+													echo("<tr>");
+													echo("<td>" .$row["item"]."</td>");
+													echo("<td>$" .$row["price"]."</td>");
+													echo("<td>" .$row["description"]."</td>");
+													echo("<td>" .$row["type"]."</td>");
+													echo("<td>" .$row["cafe"]);
+													//Use browser tags to auto close tags
+												}
+												else
+												{
+													echo(", ".$row["cafe"]);
+												}
+											$lastItemID = $row["itemID"];
+										}
+									}
+									 ?>
+								</tbody>
+							</table>
+							</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-sm-12 col-md-12">
+						<div class="card mb-4">
+							<div class="card-body text-center">
+								<h5 class=card-title>Suzy Lee List Demo</h5>
+									<div class="text-left">
+									<table class="table table-hover table-striped table-bordered">
+										<thead class="thead-dark">
+											<tr>
+												<th>Name</th>
+												<th>Price</th>
+												<th>Description</th>
+												<th>Type</th>
+												<th>Cafes</th>
+											</tr>
+										</thead>
+										<tbody>
+										<?php
+										//Populate our mysql_list_tables
+										$tableContent = $conn->query($querySuzyLeeList);
+										if ($tableContent->num_rows > 0)
+										{
+
+											while($row = $tableContent->fetch_assoc())
+											{
+												if ($row["itemID"] != $lastItemID)
+													{
+														echo("<tr>");
+														echo("<td>" .$row["item"]."</td>");
+														echo("<td>$" .$row["price"]."</td>");
+														echo("<td>" .$row["description"]."</td>");
+														echo("<td>" .$row["type"]."</td>");
+														echo("<td>" .$row["cafe"]);
+														//Use browser tags to auto close tags
+													}
+													else
+													{
+														echo(", ".$row["cafe"]);
+													}
+												$lastItemID = $row["itemID"];
+											}
+										}
+										 ?>
+									</tbody>
+								</table>
+								</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-sm-12 col-md-12">
+							<div class="card mb-4">
+								<div class="card-body text-center">
+									<h5 class=card-title>Trade Table List Demo</h5>
+										<div class="text-left">
+										<table class="table table-hover table-striped table-bordered">
+											<thead class="thead-dark">
+												<tr>
+													<th>Name</th>
+													<th>Price</th>
+													<th>Description</th>
+													<th>Type</th>
+													<th>Cafes</th>
+												</tr>
+											</thead>
+											<tbody>
+											<?php
+											//Populate our mysql_list_tables
+											$tableContent = $conn->query($queryTradeTableList);
+											if ($tableContent->num_rows > 0)
+											{
+
+												while($row = $tableContent->fetch_assoc())
+												{
+													if ($row["itemID"] != $lastItemID)
+														{
+															echo("<tr>");
+															echo("<td>" .$row["item"]."</td>");
+															echo("<td>$" .$row["price"]."</td>");
+															echo("<td>" .$row["description"]."</td>");
+															echo("<td>" .$row["type"]."</td>");
+															echo("<td>" .$row["cafe"]);
+															//Use browser tags to auto close tags
+														}
+														else
+														{
+															echo(", ".$row["cafe"]);
+														}
+													$lastItemID = $row["itemID"];
+												}
+											}
+											 ?>
+										</tbody>
+									</table>
+									</div>
+									</div>
+								</div>
+							</div>
 		</div>
 	</div>
 </main>

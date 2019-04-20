@@ -1,5 +1,7 @@
 <?php
 
+//DEPRECATED CODE - delete this file once deprecation complete
+
 //datatypes/definitions
 abstract class ItemGroup
 {
