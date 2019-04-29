@@ -2,6 +2,17 @@
 <?php
 session_start();
 require("res/php/userAccessLevel.php");
+require("res/db/dbConn.php");
+require("res/db/dbQueries.php");
+require("res/php/generateTable.php");
+require("res/php/cafeDetails.php");
+
+
+$openTime = getOpenTime($conn, "Lazenbys");
+$openTime = date("g:ia", strtotime($openTime));
+$closeTime = getCloseTime($conn, "Lazenbys");
+$closeTime = date("g:ia", strtotime($closeTime));
+$description = getDescription($conn, "Lazenbys");
  ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -17,7 +28,7 @@ require("res/php/userAccessLevel.php");
 		<link rel="stylesheet" type="text/css" href="css/override.css">
 		<?php readfile("metaIncludes.html"); ?>
 	</head>
-	<body Class="page-body">
+	<body class="page-body">
 	<header>
 		<?php
 			//Include our navbar html file
@@ -30,8 +41,8 @@ require("res/php/userAccessLevel.php");
 	<div class="container">
 		<div class="jumbotron border text-light text-center splash" id="splashLazenbys" style="background-image">
 			<h1 class="display-4">Lazenby's Menu</h1>
-			<p class="lead">Overpriced food for everyone. Don't listen to us, see for yourself.</p>
-			<p>Opening Hours: TBA</p>
+			<p class="lead"><?php echo "$description"; ?></p>
+			<p>Opening Hours: <?php echo "$openTime - $closeTime"; ?></p>
 		</div>
 
 		<div class="row">
@@ -39,69 +50,16 @@ require("res/php/userAccessLevel.php");
 			 <div class="card mb-4">
 				 <div class="card-body">
 					 <h5 class="card-title text-center">Lazenbys Menu</h5>
-					 <table class="table table-hover table-striped table-bordered masterMenu">
-						 <thead class="thead-dark">
-							 <tr>
-								 <th scope="col">Item Name</th>
-								 <th scope="col">Price</th>
-								 <th scope="col">Type</th>
-								 <?php
-								 //Hide cart actions if we aren't logged in
-								 if($_SESSION['loggedIn'] == true)
-								 {
-									 echo "<th scope=\"col\">In Cart</th>";
-								 }
-								 ?>
-							 </tr>
-						 </thead>
-						 <tbody>
-
-							 <?php
-							 //Include table files and definitions
-							 require("res/php/generateMasterTable.php");
-
-							 //Array of master menu, will be read from SQL DB later
-							 $masterMenu = array(
-								 array("ItemName" => "Lazenbys Sample Item 1", "Price" => "5", "Type" => ItemGroup::Food, "Restaurant" => array(Restaurant::Lazenbys)),
-								 array("ItemName" => "Coffee", "Price" => "4", "Type" => ItemGroup::Drink, "Restaurant" => array(Restaurant::TradeTable, Restaurant::Lazenbys, Restaurant::SuzyLee)),
-							 );
-
-							 printMasterTable($masterMenu, false, $_SESSION['loggedIn']);
-								?>
-
-						 </tbody>
-						 </table>
-					 </div>
+					 <?php
+					 	buildCafeMenu(array('Item', 'Price', 'Type', 'In Cart'), $conn, $queryLazenbysList);
+					 ?>
 				 </div>
 			 </div>
+		 </div>
 			 <?php
 			  if($_SESSION['loggedIn'] == true)
 				{
-
-					echo <<<CHECKOUT
-					<div class="col-sm-12 col-md-4">
-	 				 <div class="card mb-4">
-	 					 <div class="card-body">
-	 						 <h5 class="card-title text-center">Item Cart</h5>
-	 							 <table class="table table-striped table-bordered masterMenu">
-	 								<thead class="thead-dark">
-	 									<tr>
-	 										<th scope="col">Item Name</th>
-	 										<th scope="col">Quantity</th>
-	 									</tr>
-	 								</thead>
-	 								<tbody id="itemCart">
-	 								</tbody>
-	 	 						 </table>
-	 							 <div class="form-group">
-	     				 		<label for="NotesArea">Extra Notes</label>
-	     						<textarea class="form-control" id="NotesArea" rows="3"></textarea>
-	   						</div>
-	 							<button type="submit" class="btn btn-dark"name="button">Check Out</button>
-	 					 </div>
-	 				 </div>
-	 			 </div>
-CHECKOUT;
+					require("res/php/itemCartCard.php");
 				}
 			  ?>
 		 </div>
@@ -131,9 +89,9 @@ CHECKOUT;
 				}
 			});
 	</script>
+
 	<script type="text/javascript" src="js/shoppingCart.js">
 
 	</script>
-
 	</body>
 </html>

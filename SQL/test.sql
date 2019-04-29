@@ -92,15 +92,16 @@ INSERT INTO item_to_cafe VALUES (4, 3);
 CREATE TABLE accountType (
 	ID smallint unsigned not null auto_increment,
 	accountType varchar(20),
+	accessCode char(2) not null,
 	primary key(ID)
 ) ENGINE=InnoDB;
 -- Populate account types - align to res/php/userAccessLevel.php enum values
-INSERT INTO accountType(accountType) VALUES ('Board Director');
-INSERT INTO accountType(accountType) VALUES ('Board Member');
-INSERT INTO accountType(accountType) VALUES ('Cafe Manager');
-INSERT INTO accountType(accountType) VALUES ('Cafe Staff');
-INSERT INTO accountType(accountType) VALUES ('User Staff');
-INSERT INTO accountType(accountType) VALUES ('User Student');
+INSERT INTO accountType(accountType, accessCode) VALUES ('Board Director', 'DB');
+INSERT INTO accountType(accountType, accessCode) VALUES ('Board Member', 'BM');
+INSERT INTO accountType(accountType, accessCode) VALUES ('Cafe Manager', 'CM');
+INSERT INTO accountType(accountType, accessCode) VALUES ('Cafe Staff', 'CS');
+INSERT INTO accountType(accountType, accessCode) VALUES ('User Staff', 'UE');
+INSERT INTO accountType(accountType, accessCode) VALUES ('User Student', 'US');
 
 -- User Information table
 CREATE TABLE users (

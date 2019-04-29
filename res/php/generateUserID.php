@@ -3,7 +3,7 @@
 
 function generateUserID($userType)
 {
-	$accessCode == "error";
+	$accessCode = "error";
 	switch((int)$userType)
 	{
 		case UserAccessLevel::UserStaff:
@@ -13,7 +13,7 @@ function generateUserID($userType)
 		$accessCode = "US";
 	}
 		$userNumber = rand(1000, 9999);
-		$generatedCode = sprintf("%s %s", $accessCode, $userNumber);
+		$generatedCode = $accessCode.$userNumber;
 		return $generatedCode;
 }
  ?>

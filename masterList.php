@@ -2,6 +2,9 @@
 <?php
 session_start();
 require("res/php/userAccessLevel.php");
+require("res/db/dbConn.php");
+require("res/db/dbQueries.php");
+require("res/php/generateTable.php");
  ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -39,7 +42,7 @@ require("res/php/userAccessLevel.php");
 			<div class="jumbotron border">
 				<h1 class="display-4">Master List</h1>
 				<p class="lead">Manage available menu items below.</p>
-				<p> Page Under Construction - Data Base not functional</p>
+				<p> Page Under Construction - Database interactivity currently missing</p>
 			</div>
 		</div>
 HEAD;
@@ -76,6 +79,7 @@ HEAD;
 	break;
 	}
 
+//TODO: move page code to an include require statement based upon user access level
 	//Furthur page elements
 	switch((int)$_SESSION['accessLevel'])
 	{
@@ -88,34 +92,9 @@ HEAD;
 	 			<div class="card mb-4">
 	 				<div class="card-body">
 	 					<h5 class="card-title text-center">Master List Management</h5>
-						<table class="table table-hover table-striped table-bordered masterMenu">
-  						<thead class="thead-dark">
-    						<tr>
-      						<th scope="col">Item Name</th>
-									<th scope="col">Price</th>
-      						<th scope="col">Type</th>
-      						<th scope="col">Restaurants</th>
-    						</tr>
-  						</thead>
-  						<tbody>
-
-								<?php
-								//Include table files and definitions
-								require("res/php/generateMasterTable.php");
-
-								//Array of master menu, will be read from SQL DB later
-								$masterMenu = array(
-									array("ItemName" => "Lazenbys Sample Item 1", "Price" => "5", "Type" => ItemGroup::Food, "Restaurant" => array(Restaurant::Lazenbys)),
-									array("ItemName" => "SuzyLee Sample Item 1", "Price" => "9.5", "Type" => ItemGroup::Food, "Restaurant" => array(Restaurant::SuzyLee)),
-									array("ItemName" => "Trade Table Sample Item 2", "Price" => "3.2", "Type" => ItemGroup::Drink, "Restaurant" => array(Restaurant::TradeTable)),
-									array("ItemName" => "Coffee", "Price" => "4", "Type" => ItemGroup::Drink, "Restaurant" => array(Restaurant::TradeTable, Restaurant::Lazenbys, Restaurant::SuzyLee)),
-								);
-
-								printMasterTable($masterMenu, true, $_SESSION['loggedIn']);
-								 ?>
-
-  						</tbody>
-							</table>
+						<?php
+							buildMasterList(array('Item', 'Price', 'Description', 'Type', 'Cafes'), $conn, $queryMasterList);
+							 ?>
 	 					</div>
 	 				</div>
 	 			</div>
@@ -133,7 +112,7 @@ HEAD;
 				</div>
 			</div>
 
-
+<!--Shift modals into seperate container divs -->
 <!--Edit Item Modal-->
 <div class="modal fade" id="editItemModal" tabindex="-1" role="dialog" aria-labelledby="Edit Item" aria-hidden="true">
   <div class="modal-dialog" role="document">
