@@ -9,13 +9,13 @@ require("res/php/userAccessLevel.php");
 		<!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-		<title>Available Menus</title>
+		<title>Authentication Error</title>
 		<!--Include Bootstrap CDN-->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 		<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="css/override.css">
 		<?php readfile("metaIncludes.html"); ?>
+
 	</head>
 	<body Class="page-body">
 	<header>
@@ -28,17 +28,16 @@ require("res/php/userAccessLevel.php");
 	</header>
 	<main class="site-content">
 	<div class="container">
-		<div class="jumbotron border" style="background-image">
-			<h1 class="display-4">Menu List</h1>
-			<p class="lead">Take a glance at the restaurants currently available on UTas Eats. All on the Sandy Bay Campus. <br><br> In-class deliveries coming soon.</p>
+		<div class="jumbotron border text-center">
+			<h1 class="display-4">Authentication Error</h1>
+			<p class="lead">Username or password incorrect!</p>
+			<p>Please check your username and password. Contact your administrator if you have forgotten your password.</p>
 		</div>
-
-		<div class="row">
+		<div class="row justify-content-md-center">
 			<?php
-			require("res/php/menuCards.php");
-			 ?>
+			require("res/php/loginCard.php");
+			?>
 		</div>
-
 	</div>
 	</main>
 	<footer>
@@ -65,6 +64,7 @@ require("res/php/userAccessLevel.php");
 				}
 			});
 	</script>
+	<script type="text/javascript" src="js/shoppingCart.js">
 
 	</body>
 </html>

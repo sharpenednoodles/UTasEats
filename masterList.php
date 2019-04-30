@@ -1,10 +1,28 @@
-<!--KIT202 Assignment 1 - Bryce Andrews 204552-->
+<!--KIT202 Assignment 2 - Bryce Andrews 204552-->
 <?php
 session_start();
 require("res/php/userAccessLevel.php");
 require("res/db/dbConn.php");
 require("res/db/dbQueries.php");
 require("res/php/generateTable.php");
+
+//Redirect user if insufficent privledges
+switch((int)$_SESSION['accessLevel'])
+{
+	case userAccessLevel::BoardDirector:
+	case userAccessLevel::BoardMember:
+	case userAccessLevel::CafeManager:
+	//do nothing
+	break;
+	case userAccessLevel::CafeStaff:
+	case userAccessLevel::UserStaff:
+	case userAccessLevel::UserStudent:
+	default:
+	header('location: index.php');
+	break;
+}
+
+
  ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">

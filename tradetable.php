@@ -1,4 +1,4 @@
-<!--KIT202 Assignment 1 - Bryce Andrews 204552-->
+<!--KIT202 Assignment 2 - Bryce Andrews 204552-->
 <?php
 session_start();
 require("res/php/userAccessLevel.php");

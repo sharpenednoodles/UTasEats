@@ -88,7 +88,7 @@ This is the starting / entry point to the café menu system which will have:
 * A link to a registration page.
 * Login/logout section.
 
-For Assignment 1 (Part 1) the login/logout section does not need to authenticate a user, it just needs
+For Assignment 2 (Part 1) the login/logout section does not need to authenticate a user, it just needs
 to change the security state/level (i.e. no database access is required).
 
 #### Registration Page

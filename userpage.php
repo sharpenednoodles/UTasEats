@@ -1,43 +1,19 @@
-<!--KIT202 Assignment 1 - Bryce Andrews 204552-->
+<!--KIT202 Assignment 2 - Bryce Andrews 204552-->
 <?php
 session_start();
 //Get variables from POST
-$userID = $_POST['userID'];
-$password = $_POST['password'];
-$loggedIn = true;
-
-//Include user code generation function
-include("res/php/generateUserID.php");
-if ($_POST['newUser'] == true)
-{
-	$userID = generateUserID($_POST['userType']);
-}
-
-if (!isset($_SESSION['userID']))
-{
-	$_SESSION['userID'] = $userID;
-	$_SESSION['loggedIn'] = $loggedIn;
-}
-else
-{
-	//If the userID is in the session, then restore the variable
-	$userID = $_SESSION['userID'];
-	$loggedIn = $_SESSION['loggedIn'];
-}
-
 include("res/php/userAccessLevel.php");
 
-//TODO validate login
-$accessString = substr($userID, 0, 2);
-$accessLevel = getAccessLevel($accessString);
-
-//Save our access level in the session
-if (!isset($_SESSION['accessLevel']))
+//If we are not logged in, redirect us to an error page
+if ($_SESSION['loggedIn'] == false)
 {
-	$_SESSION['accessLevel'] = $accessLevel;
+	header('location: index.php');
 }
+
+//TODO move this to dependacy file
+//move welcome information to seperate page
 $welcomeBanner = welcomeBanner();
-$welcomeMessage = welcomeMessage($accessLevel);
+$welcomeMessage = welcomeMessage($_SESSION['accessLevel']);
 
 //Give the user a interesting welcome
 function welcomeBanner()
@@ -53,7 +29,7 @@ function welcomeBanner()
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-		<title>Usernames account</title>
+		<title><?php echo($_SESSION["userID"]. "'s Account") ?></title>
 		<!--Include Bootstrap CDN-->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 		<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
@@ -73,12 +49,14 @@ function welcomeBanner()
 	<main class="site-content">
 	<div class="container">
 		<div class="jumbotron border" style="background-image">
-			<h1 class="display-4"><?php echo("$welcomeBanner $userID") ?>!</h1>
+			<h1 class="display-4"><?php echo("$welcomeBanner " .$_SESSION['userID']) ?>!</h1>
 			<p class="lead">Page Under Construction</p>
 			<p><?php echo($welcomeMessage) ?></p>
 		</div>
 		<div class="row">
 			<?php
+
+			//TODO fix this
 			//Display new user card for newly generated users
 			if($_POST['newUser'] == true)
 			{
@@ -89,7 +67,7 @@ function welcomeBanner()
 							<h5 class=card-title>New Account Created</h5>
 							<p class="card-text">Your new userID is
 NEWUSER;
-				echo($userID);
+				echo($_SESSION['userID']);
 				echo <<<NEWUSER
 						</p>
 					</div>
@@ -126,9 +104,9 @@ NEWUSER;
 						<h5 class=card-title>Debug: PHP Vars Info</h5>
 						<p class="card-text">
 						<?php
-						echo("User name: $userID <br>");
-						echo("Password: $password <br>");
-						echo("UserAccess level: $accessLevel");
+						echo("User name: ".$_SESSION['userID'] ."<br>");
+						echo("Password: ".$_POST['password'] ."<br>");
+						echo("UserAccess level: ".$_SESSION['accessLevel']);
 						 ?>
 						</p>
 					</div>
