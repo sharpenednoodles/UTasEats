@@ -40,6 +40,10 @@ require("res/php/userAccessLevel.php");
 <div class="row justify-content-md-center">
 
 	<?php
+	if($_SESSION['newAccount'] == true)
+	{
+		require("res/php/newUserCard.php");
+	}
 	if($_SESSION['loggedIn'] == false)
 	{
 		require("res/php/loginCard.php");

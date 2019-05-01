@@ -1,4 +1,4 @@
-<div class="col-sm-12 col-md-6">
+<div class="col-sm-12 col-md-7">
    <div class="card mb-4">
       <div class="card-body">
          <h5 class="card-title text-center">Login</h5>

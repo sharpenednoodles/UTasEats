@@ -109,8 +109,18 @@
 								<h5 class=card-title>String Test Generator</h5>
 								<div class="text-left">
 									<?php
-										$genString = generateUserID(6);
-										echo "<p>$genString</p>";
+										$genDB = generateUserID(1);
+										$genBM = generateUserID(2);
+										$genCM = generateUserID(3);
+										$genCS = generateUserID(4);
+										$genUE = generateUserID(5);
+										$genUS = generateUserID(6);
+										echo "<p>Board Director: $genDB</p>";
+										echo "<p>Board Manager: $genBM</p>";
+										echo "<p>Cafe Manager: $genCM</p>";
+										echo "<p>Cafe Staff: $genCS</p>";
+										echo "<p>UTas Staff: $genUE</p>";
+										echo "<p>UTas Student: $genUS</p>";
 									?>
 								</div>
 							</div>

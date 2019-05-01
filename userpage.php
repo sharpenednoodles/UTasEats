@@ -58,18 +58,20 @@ function welcomeBanner()
 
 			//TODO fix this
 			//Display new user card for newly generated users
-			if($_POST['newUser'] == true)
+			if($_SESSION['newAccount'] == true)
 			{
+				$_SESSION['newAccount'] = false;
 				echo <<<NEWUSER
 				<div class="col-sm-12 col-md-12">
 					<div class="card mb-4">
 						<div class="card-body text-center">
 							<h5 class=card-title>New Account Created</h5>
-							<p class="card-text">Your new userID is
+							<p class="card-text">You will need your userID
 NEWUSER;
-				echo($_SESSION['userID']);
+				echo(" <b>".$_SESSION['newID']."</b> ");
 				echo <<<NEWUSER
-						</p>
+						to log in for future uses. </p>
+						<p>$5 AUD credit has been added to your account as a thank you for registering!</p>
 					</div>
 				</div>
 			</div>

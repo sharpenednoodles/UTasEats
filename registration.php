@@ -27,8 +27,6 @@ require("res/php/userAccessLevel.php");
 		?>
 		<div class ="container-full" id="navAJAX"></div>
 	</header>
-
-
 	<main class="site-content">
 	<div class="container">
 		<div class="jumbotron border" style="background-image">
@@ -36,18 +34,12 @@ require("res/php/userAccessLevel.php");
 			<p class="lead">Page Under Construction</p>
 			<p>Register a new account below. This service is only available to current UTAS Staff and Students.</p>
 		</div>
-
 		<div class="row">
 			<div class="col-sm-12 col-md-12">
 				<div class="card mb-4">
 				  <div class="card-body">
 				    <h5 class="card-title text-center">Registration</h5>
-
-
 							<form action="res/php/registrationHandler.php" method="post" novalidate>
-
-
-
 								<label>Your Details</label>
 								<div class="form-row">
 									<div class="form-group col-sm-12 col-md-6">
@@ -62,22 +54,19 @@ require("res/php/userAccessLevel.php");
 								<div class="form-row mb-3">
 								<div class="form-group col-sm-12 col-md-12">
 									<div class="custom-control custom-radio custom-control-inline">
-										<input class="custom-control-input" type="radio" name="inlineRadioGender" id="maleRadio1" value="male">
+										<input class="custom-control-input" type="radio" name="radioGender" id="maleRadio1" value="male">
 										<label class="custom-control-label" for="maleRadio1">Male</label>
 									</div>
 									<div class="custom-control custom-radio custom-control-inline">
-										<input class="custom-control-input" type="radio" name="inlineRadioGender" id="femaleRadio2" value="female">
+										<input class="custom-control-input" type="radio" name="radioGender" id="femaleRadio2" value="female">
 										<label class="custom-control-label" for="femaleRadio2">Female</label>
 									</div>
 									<div class="custom-control custom-radio custom-control-inline">
-										<input class="custom-control-input" type="radio" name="inlineRadioGender" id="otherRadio3" value="other">
+										<input class="custom-control-input" type="radio" name="radioGender" id="otherRadio3" value="other">
 										<label class="custom-control-label" for="otherRadio3">Unspecified</label>
 									</div>
 									</div>
 								</div>
-
-
-
 								<label>Account Information</label>
 									<div class="form-row">
 										<div class="form-group col-sm-12 col-md-6">
@@ -88,20 +77,17 @@ require("res/php/userAccessLevel.php");
 									<div class="form-row mb-3">
 									<div class="form-group col-sm-12 col-md-12">
 										<div class="custom-control custom-radio custom-control-inline">
-										  <input class="custom-control-input" type="radio" name="inlineRadioAccountType" id="studentRadio1" value="student">
+										  <input class="custom-control-input" type="radio" name="radioAccountType" id="studentRadio1" value="student">
 										  <label class="custom-control-label" for="studentRadio1">UTAS Student</label>
 										</div>
 										<div class="custom-control custom-radio custom-control-inline">
-										  <input class="custom-control-input" type="radio" name="inlineRadioAccountType" id="staffRadio2" value="staff">
+										  <input class="custom-control-input" type="radio" name="radioAccountType" id="staffRadio2" value="staff">
 										  <label class="custom-control-label" for="staffRadio2">UTAS Staff</label>
 										</div>
 										</div>
 									</div>
-
 									<label>Email Address</label>
 									<div class="form-row">
-
-
 									<div class="input-group col-md-6 col-sm-12 mb-4">
 										<div class="input-group-prepend">
 						          <span class="input-group-text" id="inputGroupPrepend">@</span>
@@ -110,11 +96,8 @@ require("res/php/userAccessLevel.php");
 										<div class="invalid-feedback" id="invalidEmail"></div>
 									</div>
 									</div>
-
 									<label>Password</label>
 									<div class="form-row">
-
-
 									<div class="form-group col-md-6 col-sm-12">
 										<input class="form-control" type="password" name="password" placeholder="Password" id="userPasswordInput">
 										<div class="invalid-feedback" id="invalidPassword"></div>
@@ -126,11 +109,9 @@ require("res/php/userAccessLevel.php");
 										<div class="invalid-feedback" id="invalidConfirmPassword"></div>
 									</div>
 									</div>
-
 									<label>Payment Information</label>
 									<div class="form-row mb-3">
 									<div class="form-group col-md-6 col-sm-12">
-
 										<input class="form-control" type="text" name="CCName" placeholder="Name on Credit Card" id="CCNameInput">
 										<div class="invalid-feedback" id="invalidCCName"></div>
 									</div>
@@ -147,19 +128,15 @@ require("res/php/userAccessLevel.php");
 										<div class="invalid-feedback" id="invalidCCExp"></div>
 									</div>
 									</div>
-
-
 									<!--TODO: Remember user details with cookies-->
 									<div class="custom-control custom-checkbox mb-3">
 										<input type="checkbox" id="rememberCheck" class="custom-control-input">
-										<label for="rememberCheck" class="custom-control-label">I accept the <a href="#termsAndConditionsModal"
+										<label for="rememberCheck" class="custom-control-label">I accept the <a href=""
 											data-target="#termsAndConditionsModal" data-toggle="modal">terms and conditions</a></label>
+											<div class="invalid-feedback" id="invalidTerms"></div>
 									</div>
 									<button type="submit" class="btn btn-dark"name="button" id="registrationSubmitButton">Register</button>
-
-
 							</form>
-
 					</div>
 					</div>
 				</div>
@@ -167,9 +144,7 @@ require("res/php/userAccessLevel.php");
 		</div>
 	</div>
 	</div>
-	</main>
-
-
+</main>
 <modal>
 <div class="modal fade" id="termsAndConditionsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable" role="document">

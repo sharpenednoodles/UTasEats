@@ -108,6 +108,7 @@ CREATE TABLE users (
 	ID smallint unsigned not null auto_increment,
 	username varchar(8) not null,
 	password varchar(255) not null,
+	email varchar(255) not null,
 	-- foreign key for account types
 	accountTypeKey smallint unsigned not null,
 	idNumber varchar(6),
@@ -127,7 +128,7 @@ CREATE TABLE users (
 ) ENGINE=InnoDB;
 
 -- User sample data
-INSERT INTO users (username, password, accountTypeKey, firstName, lastName, CCnumber, CCName, CCCVC, CCExpDate, idNumber, creationTimeStamp, accountBalance, gender) VALUES (
+INSERT INTO users (username, password, accountTypeKey, firstName, lastName, CCnumber, CCName, CCCVC, CCExpDate, idNumber, creationTimeStamp, accountBalance, gender, email) VALUES (
 	'DB6969',
 	-- password in plaintext = theGame1!
 	'$2y$10$zhkg2E0eHHSnS0JhqGnMDeZekqgKcwpgEIz7z1peUUDnhfK1pvnZK',
@@ -141,5 +142,6 @@ INSERT INTO users (username, password, accountTypeKey, firstName, lastName, CCnu
 	'123456',
 	now(),
 	999.99,
-	'male'
+	'male',
+	'johnsmith@gmail.com'
 );
