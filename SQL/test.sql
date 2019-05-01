@@ -113,6 +113,7 @@ CREATE TABLE users (
 	idNumber varchar(6),
 	firstName varchar(20),
 	lastName varchar(20),
+	gender varchar(10) not null,
 	-- Credit card information
 	CCnumber varchar(20),
 	CCName varchar(32),
@@ -126,7 +127,7 @@ CREATE TABLE users (
 ) ENGINE=InnoDB;
 
 -- User sample data
-INSERT INTO users (username, password, accountTypeKey, firstName, lastName, CCnumber, CCName, CCCVC, CCExpDate, idNumber, creationTimeStamp, accountBalance) VALUES (
+INSERT INTO users (username, password, accountTypeKey, firstName, lastName, CCnumber, CCName, CCCVC, CCExpDate, idNumber, creationTimeStamp, accountBalance, gender) VALUES (
 	'DB6969',
 	-- password in plaintext = theGame1!
 	'$2y$10$zhkg2E0eHHSnS0JhqGnMDeZekqgKcwpgEIz7z1peUUDnhfK1pvnZK',
@@ -139,5 +140,6 @@ INSERT INTO users (username, password, accountTypeKey, firstName, lastName, CCnu
 	'04/2026',
 	'123456',
 	now(),
-	999.99
+	999.99,
+	'male'
 );

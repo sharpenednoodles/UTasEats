@@ -110,9 +110,11 @@ HEAD;
 	 			<div class="card mb-4">
 	 				<div class="card-body">
 	 					<h5 class="card-title text-center">Master List Management</h5>
-						<?php
-							buildMasterList(array('Item', 'Price', 'Description', 'Type', 'Cafes'), $conn, $queryMasterList);
-							 ?>
+						<div class="table-responsive-sm">
+							<?php
+								buildMasterList(array('Item', 'Price', 'Description', 'Type', 'Cafes'), $conn, $queryMasterList);
+								 ?>
+						</div>
 	 					</div>
 	 				</div>
 	 			</div>
