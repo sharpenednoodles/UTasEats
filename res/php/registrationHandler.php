@@ -34,7 +34,7 @@ if (isset($_POST['password']))
 	$userID = generateUserID($accessLevel);
 
 	$insertUser = $conn->prepare("INSERT INTO users (username, password, accountTypeKey, idNumber, firstName, lastName, gender, CCNumber, CCName, CCCVC, CCExpDate, accountBalance, creationTimeStamp, email) VALUES (?,?,?,?,?,?,?,?,?,?,?,5,?,?)");
-	$insertUser->bind_param("ssissssssssss", $userID, $password, $accessLevel, $_POST["IDNumber"], $_POST["firstName"], $_POST["lastName"], $_POST["radioGender"], $_POST["CCNumber"], $_POST["CCName"], $_POST["CVC"], $_POST["CCExp"], $creationTimeStamp, $_POST["emailAddress"]);
+	$insertUser->bind_param("ssissssssssss", $userID, $password, $accessLevel, $_POST["IDNumber"], $_POST["firstName"], $_POST["lastName"], $_POST["radioGender"], $_POST["CCNumber"], strtoupper($_POST["CCName"]), $_POST["CVC"], $_POST["CCExp"], $creationTimeStamp, $_POST["emailAddress"]);
 	$insertUser->execute();
 	$insertUser->close();
 

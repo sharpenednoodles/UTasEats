@@ -114,7 +114,7 @@ CREATE TABLE users (
 	idNumber varchar(6),
 	firstName varchar(20),
 	lastName varchar(20),
-	gender varchar(10) not null,
+	gender varchar(12) not null,
 	-- Credit card information
 	CCnumber varchar(20),
 	CCName varchar(32),
@@ -136,7 +136,7 @@ INSERT INTO users (username, password, accountTypeKey, firstName, lastName, CCnu
 	'John',
 	'Smith',
 	'4809257503491111',
-	'Mr John Smith',
+	'MR JOHN SMITH',
 	'599',
 	'04/2026',
 	'123456',

@@ -3,6 +3,11 @@
 session_start();
 //Get variables from POST
 include("res/php/userAccessLevel.php");
+include("res/db/dbConn.php");
+include("res/db/dbQueries.php");
+include("res/php/accountDetails.php");
+
+
 
 //If we are not logged in, redirect us to an error page
 if ($_SESSION['loggedIn'] == false)
@@ -49,7 +54,7 @@ function welcomeBanner()
 	<main class="site-content">
 	<div class="container">
 		<div class="jumbotron border" style="background-image">
-			<h1 class="display-4"><?php echo("$welcomeBanner " .$_SESSION['userID']) ?>!</h1>
+			<h1 class="display-4"><?php echo("$welcomeBanner, " .$_SESSION['firstName']) ?>!</h1>
 			<p class="lead">Page Under Construction</p>
 			<p><?php echo($welcomeMessage) ?></p>
 		</div>
@@ -58,7 +63,7 @@ function welcomeBanner()
 
 			//TODO fix this
 			//Display new user card for newly generated users
-			if($_SESSION['newAccount'] == true)
+			if($_SESSION['newAccount'] == true && ($_SESSION['newID'] == $_SESSION['userID']))
 			{
 				$_SESSION['newAccount'] = false;
 				echo <<<NEWUSER
@@ -107,7 +112,8 @@ NEWUSER;
 						<p class="card-text">
 						<?php
 						echo("User name: ".$_SESSION['userID'] ."<br>");
-						echo("Password: ".$_POST['password'] ."<br>");
+						echo("First Name: ".$_SESSION['firstName'] ."<br>");
+						echo("Last Name: ".$_SESSION['lastName'] ."<br>");
 						echo("UserAccess level: ".$_SESSION['accessLevel']);
 						 ?>
 						</p>

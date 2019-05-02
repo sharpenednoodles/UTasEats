@@ -43,12 +43,12 @@ require("res/php/userAccessLevel.php");
 								<label>Your Details</label>
 								<div class="form-row">
 									<div class="form-group col-sm-12 col-md-6">
-										<input class="form-control" type="text" name="firstName" placeholder="First Name" id="firstNameInput">
-										<div class="invalid-feedback" id="invalidFirstName"></div>
+										<input class="form-control" type="text" name="firstName" maxlength="20" placeholder="First Name" id="firstNameInput">
+										<div class="invalid-feedback" id="invalidFirstName">Please enter a valid name</div>
 									</div>
 									<div class="form-group col-sm-12 col-md-6">
-										<input class="form-control" type="text" name="lastName" placeholder="Last Name" id="lastNameInput">
-										<div class="invalid-feedback" id="invalidLastName"></div>
+										<input class="form-control" type="text" name="lastName" maxlength="20" placeholder="Last Name" id="lastNameInput">
+										<div class="invalid-feedback" id="invalidLastName">Please enter a valid name</div>
 									</div>
 								</div>
 								<div class="form-row mb-3">
@@ -70,8 +70,8 @@ require("res/php/userAccessLevel.php");
 								<label>Account Information</label>
 									<div class="form-row">
 										<div class="form-group col-sm-12 col-md-6">
-										<input class="form-control" type="text" name="IDNumber" placeholder="Student/Staff ID Number" id="IDNumberInput">
-										<div class="invalid-feedback" id="invalidIDNumber"></div>
+										<input class="form-control" type="text" name="IDNumber" maxlength="6" placeholder="Student/Staff ID Number" id="IDNumberInput">
+										<div class="invalid-feedback" id="invalidIDNumber">Please enter a valid 6 digit ID</div>
 									</div>
 								</div>
 									<div class="form-row mb-3">
@@ -93,47 +93,48 @@ require("res/php/userAccessLevel.php");
 						          <span class="input-group-text" id="inputGroupPrepend">@</span>
 						        </div>
 										<input class="form-control" type="email" name="emailAddress" placeholder="Enter Email Address" id="emailInput">
-										<div class="invalid-feedback" id="invalidEmail"></div>
+										<div class="invalid-feedback" id="invalidEmail">Please enter a valid email address</div>
 									</div>
 									</div>
 									<label>Password</label>
 									<div class="form-row">
 									<div class="form-group col-md-6 col-sm-12">
-										<input class="form-control" type="password" name="password" placeholder="Password" id="userPasswordInput">
+										<input class="form-control" type="password" name="password" maxlength="70" placeholder="Password" id="userPasswordInput">
 										<div class="invalid-feedback" id="invalidPassword"></div>
 									</div>
 								</div>
 								<div class="form-row mb-3">
 									<div class="form-group col-md-6 col-sm-12">
-										<input class="form-control" type="password" name="passwordConfirm" placeholder="Confirm Password" id="userPasswordInputConfirm">
-										<div class="invalid-feedback" id="invalidConfirmPassword"></div>
+										<input class="form-control" type="password" name="passwordConfirm" maxlength="70" placeholder="Confirm Password" id="userPasswordInputConfirm">
+										<div class="invalid-feedback" id="invalidConfirmPassword">Passwords do not match</div>
 									</div>
 									</div>
 									<label>Payment Information</label>
 									<div class="form-row mb-3">
 									<div class="form-group col-md-6 col-sm-12">
-										<input class="form-control" type="text" name="CCName" placeholder="Name on Credit Card" id="CCNameInput">
-										<div class="invalid-feedback" id="invalidCCName"></div>
+										<input class="form-control" type="text" name="CCName" maxlength="32" placeholder="Name on Credit Card" id="CCNameInput">
+										<div class="invalid-feedback" id="invalidCCName">Please enter a valid name</div>
 									</div>
 									<div class="form-group col-md-3 col-sm12">
-										<input class="form-control" type="text" name="CCNumber" placeholder="Credit Card Number" id="CCNumberInput">
-										<div class="invalid-feedback" id="invalidCCNumber"></div>
+										<input class="form-control" type="text" name="CCNumber" maxlength="20" placeholder="Credit Card Number" id="CCNumberInput">
+										<div class="invalid-feedback" id="invalidCCNumber">Please enter a valid credit card number!</div>
+										<div class="valid-feedback" id="validCCNumber"></div>
 									</div>
 									<div class="form-group col">
-										<input class="form-control" type="text" name="CVC" placeholder="CVC" id="CVCInput">
-										<div class="invalid-feedback" id="invalidCVC"></div>
+										<input class="form-control" type="text" name="CVC" maxlength="3" placeholder="CVC" id="CVCInput">
+										<div class="invalid-feedback" id="invalidCVC">Please enter a valid CVC</div>
 									</div>
 									<div class="form-group col">
-										<input class="form-control" type="text" name="CCExp" placeholder="CC Expiry" id="CCExpInput">
-										<div class="invalid-feedback" id="invalidCCExp"></div>
+										<input class="form-control" type="text" name="CCExp" maxlength="7" placeholder="CC Expiry" id="CCExpInput">
+										<div class="invalid-feedback" id="invalidCCExp">Please enter a valid expiry date (mm/yy)</div>
 									</div>
 									</div>
-									<!--TODO: Remember user details with cookies-->
+
 									<div class="custom-control custom-checkbox mb-3">
-										<input type="checkbox" id="rememberCheck" class="custom-control-input">
-										<label for="rememberCheck" class="custom-control-label">I accept the <a href=""
+										<input type="checkbox" id="termsandCondsCheck" class="custom-control-input">
+										<label for="termsandCondsCheck" class="custom-control-label">I accept the <a href=""
 											data-target="#termsAndConditionsModal" data-toggle="modal">terms and conditions</a></label>
-											<div class="invalid-feedback" id="invalidTerms"></div>
+											<div class="invalid-feedback" id="invalidTerms">Please Accept the Terms and Conditions</div>
 									</div>
 									<button type="submit" class="btn btn-dark"name="button" id="registrationSubmitButton">Register</button>
 							</form>
@@ -190,7 +191,7 @@ require("res/php/userAccessLevel.php");
 				}
 			});
 	</script>
-	<script type="text/javascript" src="js/registrationVerification.jss">
+	<script type="text/javascript" src="js/registrationVerification.js">
 
 	</script>
 
