@@ -11,6 +11,14 @@ function buildMasterList($tableHeaders, $sqli, $SQLQuery)
 	finishTable();
 }
 
+//Builds a generic HTML table based upon 2 arrays, tableHeaders specify the names, sqlHeaders specify the names of the data in the DB
+function buildGenericList($tableHeaders, $sqlHeaders, $sqli, $SQLQuery)
+{
+	buildHeaders($tableHeaders);
+	buildSQLBody($sqlHeaders, $sqli, $SQLQuery);
+	finishTable();
+}
+
 function buildCafeMenu($tableHeaders, $sqli, $SQLQuery)
 {
 	buildHeaders($tableHeaders);
@@ -45,7 +53,7 @@ function buildSQLBody($rowLabels, $sqli, $SQLQuery)
 	{
 		while($row = $tableContent->fetch_assoc())
 		{
-			echo("<tr>");
+			echo("<tr id =".$row["itemID"].">");
 			foreach ($rowLabels as $rowLabel)
 			{
 				echo("<td>" .$row["$rowLabel"]."</td>");
@@ -68,7 +76,7 @@ function buildMasterBody($sqli, $SQLQuery)
 		{
 			if ($row["itemID"] != $lastItemID)
 				{
-					echo("<tr>");
+					echo("<tr class=\"clickable\" id=".$row["itemID"]." startDate=".$row["startDate"]." endDate=".$row["endDate"].">");
 					echo("<td>" .$row["item"]."</td>");
 					echo("<td>" .$row["price"]."</td>");
 					echo("<td>" .$row["description"]."</td>");

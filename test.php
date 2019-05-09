@@ -126,6 +126,21 @@
 							</div>
 						</div>
 					</div>
+					<div class="col-sm-12 col-md-3">
+						<div class="card mb-4">
+							<div class="card-body text-center">
+								<h5 class=card-title>Date converter test</h5>
+								<div class="text-left">
+									<?php
+										$originDate = "07/05/2019";
+										echo "<p>Original Date = $originDate</p>";
+										$newDate = date_format(date_create_from_format('d/m/Y', $originDate), 'Y-m-d');
+										echo "<p>New Date = $newDate</p>";
+									?>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			</div>

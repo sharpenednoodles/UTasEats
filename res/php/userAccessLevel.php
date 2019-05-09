@@ -10,7 +10,7 @@ abstract class UserAccessLevel
 		const UserStudent = 6;
 }
 
-//Set user access level from string
+//Get user access level from string
 function getAccessLevel($AC)
 {
 	if ($AC == "DB")
@@ -38,6 +38,34 @@ function getAccessLevel($AC)
 		return UserAccessLevel::UserStudent;
 	}
 	return error;
+}
+
+//Get user string from access level
+function getAccessCode($accessLevel)
+{
+	switch($accessLevel)
+	{
+	case UserAccessLevel::BoardDirector:
+		return "DB";
+		break;
+	case UserAccessLevel::BoardMember:
+		return "BM";
+		break;
+	case UserAccessLevel::CafeManager:
+		return "CM";
+		break;
+	case UserAccessLevel::CafeStaff:
+		return "CS";
+		break;
+	case UserAccessLevel::UserStaff:
+		return "UE";
+		break;
+	case UserAccessLevel::UserStudent:
+		return "US";
+		break;
+	default:
+		return "error";
+	}
 }
 
 //Set a welcome string depending on access level

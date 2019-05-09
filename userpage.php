@@ -1,5 +1,8 @@
 <!--KIT202 Assignment 2 - Bryce Andrews 204552-->
 <?php
+//Display DEBUG cards on page
+$debug = true;
+
 session_start();
 //Get variables from POST
 include("res/php/userAccessLevel.php");
@@ -82,6 +85,24 @@ NEWUSER;
 			</div>
 NEWUSER;
 			}
+			?>
+			<div class="col-md-12">
+				<div class="card mb-4">
+	  			<div class="row no-gutters">
+	    			<div class="col-md-2">
+	      			<img src="https://www.searchpng.com/wp-content/uploads/2019/02/Profile-PNG-Icon.png" class="card-img" alt="">
+	    			</div>
+				    <div class="col">
+				      <div class="card-body">
+				        <h5 class="card-title"><?php echo $_SESSION['firstName'] ." ".$_SESSION['lastName']; ?></h5>
+				        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+				        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+			</div>
+			<?php
 			switch((int)$_SESSION['accessLevel'])
 			{
 				case UserAccessLevel::BoardDirector:
@@ -104,47 +125,54 @@ NEWUSER;
 			}
 			 ?>
 			</div>
-			<div class="row">
-			<div class="col-sm-12 col-md-4">
-				<div class="card mb-4">
-					<div class="card-body text-center">
-						<h5 class=card-title>Debug: PHP Vars Info</h5>
-						<p class="card-text">
-						<?php
-						echo("User name: ".$_SESSION['userID'] ."<br>");
-						echo("First Name: ".$_SESSION['firstName'] ."<br>");
-						echo("Last Name: ".$_SESSION['lastName'] ."<br>");
-						echo("UserAccess level: ".$_SESSION['accessLevel']);
-						 ?>
-						</p>
+			<?php
+			if ($debug == true)
+			{
+				echo <<<DEBUG
+				<div class="row">
+				<div class="col-sm-12 col-md-4">
+					<div class="card mb-4">
+						<div class="card-body text-center">
+							<h5 class=card-title>Debug: PHP Vars Info</h5>
+							<p class="card-text">
+DEBUG;
+							echo("User name: ".$_SESSION['userID'] ."<br>");
+							echo("First Name: ".$_SESSION['firstName'] ."<br>");
+							echo("Last Name: ".$_SESSION['lastName'] ."<br>");
+							echo("UserAccess level: ".$_SESSION['accessLevel']);
+							echo <<<DEBUG
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-12 col-md-4">
+					<div class="card mb-4">
+						<div class="card-body text-center">
+							<h5 class=card-title>Debug: Session Variable Contents</h5>
+							<p class="card-text">
+DEBUG;
+							print_r($_SESSION);
+							 echo <<<DEBUG
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-12 col-md-4">
+					<div class="card mb-4">
+						<div class="card-body text-center">
+							<h5 class=card-title>Debug: Post Variable Contents</h5>
+							<p class="card-text">
+DEBUG;
+							print_r($_POST);
+							echo <<<DEBUG
+							</p>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-12 col-md-4">
-				<div class="card mb-4">
-					<div class="card-body text-center">
-						<h5 class=card-title>Debug: Session Variable Contents</h5>
-						<p class="card-text">
-						<?php
-						print_r($_SESSION);
-						 ?>
-						</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-12 col-md-4">
-				<div class="card mb-4">
-					<div class="card-body text-center">
-						<h5 class=card-title>Debug: Post Variable Contents</h5>
-						<p class="card-text">
-						<?php
-						print_r($_POST);
-						 ?>
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
+DEBUG;
+			}
+			 ?>
 	</div>
 	</main>
 	<footer>

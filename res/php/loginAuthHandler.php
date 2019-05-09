@@ -25,12 +25,13 @@ if (isset($_POST['userID']))
 		while($row = $result->fetch_assoc())
 		{
 			$hash = $row['password'];
+			$activeAccount = $row['activeAccount'];
 		}
 	}
 
 	$rows = mysqli_num_rows($result);
 
-	if ($rows == 1 && password_verify($password, $hash))
+	if ($rows == 1 && password_verify($password, $hash) && $activeAccount == true)
 	{
 		//Correct password, login
 		$_SESSION['userID'] = $_POST['userID'];

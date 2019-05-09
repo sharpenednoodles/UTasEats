@@ -44,35 +44,26 @@
 				<h1><i class="material-icons">keyboard_arrow_down</i></h1>
 			</div>
 		</div>
-		<!--Fancy Cards. mb refers to Bootstraps margin system. Here it is marging bottom, with space 4-->
-		<!--col-sm and col-md describe how much space in the grid an element should take up based on screen size
-				The full span of a grid takes up 12 elements-->
-		<div class="row">
-			<div class="col-sm-12 col-md-4">
-				<div class="card mb-4">
-					<div class="card-body text-center">
-						<h5 class=card-title>Select</h5>
-						<p class="card-text">Choose food or drinks from any on campus cafe or restaurant.</p>
-						<a class="card-link" href="menuList.php">See Menus</a>
-					</div>
+		<div class="card-deck">
+			<div class="card mb-4">
+				<div class="card-body text-center">
+					<h5 class=card-title>Select</h5>
+					<p class="card-text">Choose food or drinks from any on campus cafe or restaurant.</p>
+					<a class="card-link" href="menuList.php">See Menus</a>
 				</div>
 			</div>
-			<div class="col-sm-12 col-md-4">
-				<div class="card mb-4">
-					<div class="card-body text-center">
-						<h5 class=card-title>Order</h5>
-						<p class="card-text">Order and pay instantly from your Y.E.O.M. prepaid account.</p>
-						<a class="card-link" href="registration.php">Create Account</a>
-					</div>
+			<div class="card mb-4">
+				<div class="card-body text-center">
+					<h5 class=card-title>Order</h5>
+					<p class="card-text">Order and pay instantly from your Y.E.O.M. prepaid account.</p>
+					<a class="card-link" href="registration.php">Create Account</a>
 				</div>
 			</div>
-			<div class="col-sm-12 col-md-4">
-				<div class="card mb-4">
-					<div class="card-body text-center">
-						<h5 class=card-title>Pick-Up</h5>
-						<p class="card-text">Pick up your order once it's ready. No waiting in lines.</p>
-						<a class="card-link" href="#">View Locations</a>
-					</div>
+			<div class="card mb-4">
+				<div class="card-body text-center">
+					<h5 class=card-title>Pick-Up</h5>
+					<p class="card-text">Pick up your order once it's ready. No waiting in lines.</p>
+					<a class="card-link" href="#">View Locations</a>
 				</div>
 			</div>
 		</div>

@@ -50,7 +50,7 @@ INSERT INTO foodType (name) VALUES('Drink');
 
 -- masterfood list
 CREATE TABLE masterFoodList (
-	itemID smallint unsigned not null auto_increment,
+	itemID int unsigned not null auto_increment,
 	name varchar(32) not null,
 	price decimal(4,2) not null,
 	description TEXT,
@@ -65,11 +65,11 @@ CREATE TABLE masterFoodList (
 
 -- DB to link cafe availabilities to food items
 CREATE TABLE item_to_cafe (
-	itemID smallint unsigned not null,
+	itemID int unsigned not null,
 	cafeID tinyint unsigned not null,
 	index(itemID),
 	index(cafeID),
-	foreign key (itemID) REFERENCES masterFoodList(itemID),
+	foreign key (itemID) REFERENCES masterFoodList(itemID) on delete cascade,
 	foreign key (cafeID) REFERENCES cafe(cafeID)
 ) ENGINE=InnoDB;
 
@@ -104,11 +104,14 @@ INSERT INTO accountType(accountType, accessCode) VALUES ('User Staff', 'UE');
 INSERT INTO accountType(accountType, accessCode) VALUES ('User Student', 'US');
 
 -- User Information table
+-- TODO remove duplication between userName and accountNum fields
 CREATE TABLE users (
-	ID smallint unsigned not null auto_increment,
+	ID int unsigned not null auto_increment,
+	-- Not full username, just the numbers
 	username varchar(8) not null,
 	password varchar(255) not null,
 	email varchar(255) not null,
+	activeAccount boolean not null default true,
 	-- foreign key for account types
 	accountTypeKey smallint unsigned not null,
 	idNumber varchar(6),
@@ -121,10 +124,14 @@ CREATE TABLE users (
 	CCCVC varchar(3),
 	CCExpDate varchar(7),
 	accountBalance decimal(6,2),
+	-- for cafe employees only
+	cafeEmployement tinyint unsigned,
 	creationTimeStamp datetime not null,
 	primary key (ID),
 	index (accountTypeKey),
-	foreign key(accountTypeKey) REFERENCES accountType(ID)
+	index(cafeEmployement),
+	foreign key(accountTypeKey) REFERENCES accountType(ID),
+	foreign key(cafeEmployement) REFERENCES cafe(cafeID)
 ) ENGINE=InnoDB;
 
 -- User sample data
@@ -138,7 +145,7 @@ INSERT INTO users (username, password, accountTypeKey, firstName, lastName, CCnu
 	'4809257503491111',
 	'MR JOHN SMITH',
 	'599',
-	'04/2026',
+	'04/26',
 	'123456',
 	now(),
 	999.99,

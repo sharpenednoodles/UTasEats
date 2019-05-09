@@ -1,5 +1,6 @@
 //Include this is a seprate JS file
 //Provide client side input validation
+//TODO: Provide feedback on a field by field basis
 $("#registrationSubmitButton").click(function() {
 
 	//Get values from fields
