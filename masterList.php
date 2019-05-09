@@ -66,7 +66,7 @@ if (isset($_POST['itemName']))
 	//Add to DB
 	$foodType = array_search($_POST['itemType'], $foodTypes);
 	$insertItem = $conn->prepare("INSERT INTO masterFoodList (name, price, description, type) VALUES (?,?,?,?)");
-	$insertItem->bind_param("sisi", $_POST['itemName'], $_POST['itemPrice'], $_POST['itemDescription'], $foodType);
+	$insertItem->bind_param("sdsi", $_POST['itemName'], $_POST['itemPrice'], $_POST['itemDescription'], $foodType);
 	$insertItem->execute();
 	$itemID = $conn->insert_id;
 	$insertItem->close();
@@ -84,12 +84,37 @@ if (isset($_POST['itemName']))
 
 if (isset($_POST['itemNameEdit']))
 {
+	//Browse the array of cafe names, and populate array from POST variables named by the cafe name keys
+	foreach ($cafeNames as $cafeID => $cafeName)
+	{
+		if($_POST[$cafeID] == true)
+		{
+			$cafeToAdd[] = $cafeID;
+		}
+	}
+
 	$itemID = $_POST['editID'];
 	$foodType = array_search($_POST['itemTypeEdit'], $foodTypes);
 	$editStatement = $conn->prepare("UPDATE masterFoodList SET name = ?, price = ?, description = ?, type = ? WHERE itemID = ?");
-	$editStatement->bind_param("sisii", $_POST['itemNameEdit'], $_POST['itemPriceEdit'], $_POST['itemDescriptionEdit'], $foodType, $itemID);
+	$editStatement->bind_param("sdsii", $_POST['itemNameEdit'], $_POST['itemPriceEdit'], $_POST['itemDescriptionEdit'], $foodType, $itemID);
 	$editStatement->execute();
 	$editStatement->close();
+
+	//Delete old item to cafe entries
+	//TODO only do this on changes
+
+	$deleteCafe = $conn->prepare("DELETE from item_to_cafe WHERE itemID = ?");
+	$deleteCafe->bind_param("i", $itemID);
+	$deleteCafe->execute();
+	$deleteCafe->close();
+	//Loop over all cafes selected with appropriate cafeIDs
+	$insertCafe = $conn->prepare("INSERT INTO item_to_cafe (itemID, cafeID) VALUES (?, ?)");
+	foreach ($cafeToAdd as $cafeID)
+	{
+		$insertCafe->bind_param("ii", $itemID, $cafeID);
+		$insertCafe->execute();
+	}
+	$insertCafe->close();
 }
 
 //Add date as an edit
@@ -168,7 +193,7 @@ if(isset($_POST['delete']))
 			<div class="jumbotron border">
 				<h1 class="display-4">Master List</h1>
 				<p class="lead">Manage available menu items below.</p>
-				<p> Page Under Construction - Database editing unimplemented</p>
+				<p> Page Under Construction</p>
 			</div>
 		</div>
 HEAD;
@@ -238,34 +263,6 @@ HEAD;
 						</div>
 					</div>
 				</div>
-
-				<div class="col-sm-12 col-md-4">
-					<div class="card mb-4">
-						<div class="card-body text-center">
-							<h5 class=card-title>Debug: Food Types</h5>
-							<p class="card-text">
-								<?php
-								print_r($foodTypes);
-								print_r($cafeToAdd);
-								 ?>
-							</p>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-sm-12 col-md-4">
-					<div class="card mb-4">
-						<div class="card-body text-center">
-							<h5 class=card-title>Debug: Cafe Names</h5>
-							<p class="card-text">
-								<?php
-								print_r($cafeNames);
-								 ?>
-							</p>
-						</div>
-					</div>
-				</div>
-
 			</div>
 			<div class="row">
 				<div class="col-sm-12 col-md-10">
@@ -409,7 +406,7 @@ HEAD;
 											foreach ($cafeNames as $cafeID => $cafeName)
 											{
 												echo "<div class=\"form-check form-check-inline\">";
-												echo "<input class=\"form-check-input editRestaurantSelector\" name=\"$cafeID\" type=\"checkbox\" value=\"true\">";
+												echo "<input class=\"form-check-input editRestaurantSelector\" parseName=\"$cafeName\" name=\"$cafeID\" type=\"checkbox\" value=\"true\">";
 												echo "<label class=\"form-check-label\"  for=\"$cafeID\">$cafeName</label>";
 												echo "</div>";
 											}

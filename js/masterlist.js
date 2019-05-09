@@ -163,9 +163,11 @@ function deleteSelect(selectedColumn)
 				$("#editItemEnd").val(endDateFormat);
 			}
 
+			//Check all items found in table element
 			for (i = 0; i < restaurantArray.length; i++)
 			{
-				alert(restaurantArray[i]);
+				var element = restaurantArray[i];
+				$("[parsename='"+element+"']").prop('checked', true);
 			}
 
 
