@@ -2,6 +2,27 @@
 
 A home for my KIT202 Assignment, UTASEats - a platform to bring Uber Eats like convenience to our on campus cafes.
 
+## For The Marker
+This information has also been conveniently included within a seperate readme.txt file if you can't be bothered with markdown.
+
+### Included Accounts
+By default there are multiple accounts included by default with various permission levels
+
+| UserID | Password | Role |
+| -------|----------|-------|
+| DB6969   | theGame1!   | Board Director |
+| US4903 | theGame1!     | UTas Student |
+| UE3495 | theGame1!     | UTas Staff |
+
+### Credit Card details
+By default, registering a new user requires a valid MasterCard, AMEX or Visa card number. CVC and CC Expiry are only validated to ensure they meet the required formats.
+
+Here are some LUHN valid credit card numbers for you to use during registration
+* 4485544390208521
+* 5410540238471005
+*
+
+
 ## Getting Started
 UTAS Eats has been designed based upon the specifications for the KIT202 Secure Web Assignment 2019. Despite the name, the unit is neither secure, nor focused on modern web technologies.
 ### Prerequisites

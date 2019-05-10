@@ -58,8 +58,10 @@ function welcomeBanner()
 	<div class="container">
 		<div class="jumbotron border" style="background-image">
 			<h1 class="display-4"><?php echo("$welcomeBanner, " .$_SESSION['firstName']) ?>!</h1>
+			<!--
 			<p class="lead">Page Under Construction</p>
-			<p><?php echo($welcomeMessage) ?></p>
+			<p><?php //echo($welcomeMessage) ?></p>
+		-->
 		</div>
 		<div class="row">
 			<?php
@@ -95,8 +97,7 @@ NEWUSER;
 				    <div class="col">
 				      <div class="card-body">
 				        <h5 class="card-title"><?php echo $_SESSION['firstName'] ." ".$_SESSION['lastName']; ?></h5>
-				        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-				        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+				        <p class="card-text"><?php echo($welcomeMessage) ?></p>
 				      </div>
 				    </div>
 				  </div>
