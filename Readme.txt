@@ -10,7 +10,7 @@ By default there are multiple accounts included by default with various permissi
 ### Credit Card details
 By default, registering a new user requires a LUHN valid MasterCard, AMEX or Visa card number. CVC and CC Expiry are only validated to ensure they meet the required formats.
 
-Here are some LUHN valid credit card numbers for you to use during registration
+Here are some LUHN valid credit card numbers you can use during registration
 * 4485544390208521
 * 5410540238471005
 * 5170721703057160
