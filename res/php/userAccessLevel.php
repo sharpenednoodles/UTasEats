@@ -68,6 +68,34 @@ function getAccessCode($accessLevel)
 	}
 }
 
+//Get user role string from access level
+function getUserRole($accessLevel)
+{
+	switch($accessLevel)
+	{
+		case UserAccessLevel::BoardDirector:
+			return "Board Director";
+			break;
+		case UserAccessLevel::BoardMember:
+			return "Board Member";
+			break;
+		case UserAccessLevel::CafeManager:
+			return "Cafe Manager";
+			break;
+		case UserAccessLevel::CafeStaff:
+			return "Cafe Staff";
+			break;
+		case UserAccessLevel::UserStaff:
+			return "UTAS Staff";
+			break;
+		case UserAccessLevel::UserStudent:
+			return "UTAS Student";
+			break;
+		default:
+			return "error";
+	}
+}
+
 //Set a welcome string depending on access level
 function welcomeMessage($accessLevel)
 {

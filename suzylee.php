@@ -7,12 +7,12 @@ require("res/db/dbQueries.php");
 require("res/php/generateTable.php");
 require("res/php/cafeDetails.php");
 
-
-$openTime = getOpenTime($conn, "Suzy Lee");
+$restaurant = "Suzy Lee";
+$openTime = getOpenTime($conn, $restaurant);
 $openTime = date("g:ia", strtotime($openTime));
-$closeTime = getCloseTime($conn, "Suzy Lee");
+$closeTime = getCloseTime($conn, $restaurant);
 $closeTime = date("g:ia", strtotime($closeTime));
-$description = getDescription($conn, "Suzy Lee");
+$description = getDescription($conn, $restaurant);
  ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -21,7 +21,7 @@ $description = getDescription($conn, "Suzy Lee");
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-		<title>Suzy Lee Menu</title>
+		<title><?php echo $restaurant;?> Menu</title>
 		<!--Include Bootstrap CDN-->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 		<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
@@ -40,7 +40,7 @@ $description = getDescription($conn, "Suzy Lee");
 	<main class="site-content">
 	<div class="container">
 		<div class="jumbotron border text-light text-center splash" id="splashSuzyLee" style="background-image">
-			<h1 class="display-4">Suzy Lee Menu</h1>
+			<h1 class="display-4"><?php echo $restaurant;?> Menu</h1>
 			<p class="lead"><?php echo "$description"; ?></p>
 			<p>Opening Hours: <?php echo "$openTime - $closeTime"; ?></p>
 		</div>
@@ -49,9 +49,16 @@ $description = getDescription($conn, "Suzy Lee");
 		 <div class="col-sm-12 col-md-8">
 			 <div class="card mb-4">
 				 <div class="card-body">
-					 <h5 class="card-title text-center">Suzy Lee Menu</h5>
+					 <h5 class="card-title text-center"><?php echo $restaurant;?> Menu</h5>
 					 <?php
-					 	buildCafeMenu(array('Item', 'Price', 'Type', 'In Cart'), $conn, $querySuzyLeeList);
+					 if ($_SESSION["loggedIn"] == true)
+					 {
+						 	buildCafeMenu(array('Item', 'Price', 'Type', 'In Cart'), $conn, $querySuzyLeeList, $_SESSION["loggedIn"], true);
+					 }
+					 else
+					 {
+						 buildCafeMenu(array('Item', 'Price', 'Type'), $conn, $querySuzyLeeList, $_SESSION["loggedIn"], true);
+					 }
 					 ?>
 				 </div>
 			 </div>
@@ -76,7 +83,7 @@ $description = getDescription($conn, "Suzy Lee");
 
 	<!--Include JQuery, popper and bootstrap-->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.buttflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 	<script>

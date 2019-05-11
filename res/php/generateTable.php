@@ -19,10 +19,10 @@ function buildGenericList($tableHeaders, $sqlHeaders, $sqli, $SQLQuery)
 	finishTable();
 }
 
-function buildCafeMenu($tableHeaders, $sqli, $SQLQuery)
+function buildCafeMenu($tableHeaders, $sqli, $SQLQuery, $isCart, $includeExpiry)
 {
 	buildHeaders($tableHeaders);
-	buildSQLBody(array('item','price','type'), $sqli, $SQLQuery);
+	buildCafeBody(array('item','price','type'), $sqli, $SQLQuery, $isCart, $includeExpiry);
 	finishTable();
 }
 
@@ -64,7 +64,37 @@ function buildSQLBody($rowLabels, $sqli, $SQLQuery)
 	echo "</tbody>";
 }
 
-//Special Case - Create body of master list from SQL connection and query - HELPER FUNCTION, ;['pDO NOT CALL DIRECTLY
+//Special case - Create body of cafe menu - can specify whether to include items if they no longer are valid - HELPER FUNCTION, DO NOT CALL DIRECTLY
+function buildCafeBody($rowLabels, $sqli, $SQLQuery, $isCart, $includeExpiry)
+{
+	echo "<tbody>";
+	$tableContent = $sqli->query($SQLQuery);
+
+	if ($tableContent->num_rows > 0)
+	{
+		while($row = $tableContent->fetch_assoc())
+		{
+			//TODO check if item is in valid range before echoing table
+			echo("<tr id =".$row["itemID"].">");
+			foreach ($rowLabels as $rowLabel)
+			{
+				echo("<td>" .$row["$rowLabel"]."</td>");
+			}
+			//Add item for ordering quantity
+			if ($isCart)
+			{
+
+				echo "<td><div class=\"input-group\">";
+					echo "<input type=\"number\" value=\"0\" min=\"0\" step=\"1\" class=\"form-control\" id=\"itemQuantity\" style=\"width: 10vw\">";
+				echo "</div></td>";
+			}
+			echo("</tr>");
+		}
+	}
+	echo "</tbody>";
+}
+
+//Special Case - Create body of master list from SQL connection and query - HELPER FUNCTION, DO NOT CALL DIRECTLY
 function buildMasterBody($sqli, $SQLQuery)
 {
 	echo "<tbody>";
