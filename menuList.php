@@ -2,6 +2,9 @@
 <?php
 session_start();
 require("res/php/userAccessLevel.php");
+require("res/db/dbConn.php");
+require("res/db/dbQueries.php");
+require("res/php/cafeDetails.php");
  ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">

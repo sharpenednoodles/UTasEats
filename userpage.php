@@ -1,7 +1,7 @@
 <!--KIT202 Assignment 2 - Bryce Andrews 204552-->
 <?php
 //Display DEBUG cards on page
-$debug = true;
+$debug = false;
 
 session_start();
 //Get variables from POST
@@ -9,8 +9,7 @@ include("res/php/userAccessLevel.php");
 include("res/db/dbConn.php");
 include("res/db/dbQueries.php");
 include("res/php/accountDetails.php");
-
-
+require("res/php/cafeDetails.php");
 
 //If we are not logged in, redirect us to an error page
 if ($_SESSION['loggedIn'] == false)

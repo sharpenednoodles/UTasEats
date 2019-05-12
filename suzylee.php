@@ -7,7 +7,10 @@ require("res/db/dbQueries.php");
 require("res/php/generateTable.php");
 require("res/php/cafeDetails.php");
 
+//Change restaurant name here
 $restaurant = "Suzy Lee";
+
+$restVar = str_replace(' ', '', $restaurant);
 $openTime = getOpenTime($conn, $restaurant);
 $openTime = date("g:ia", strtotime($openTime));
 $closeTime = getCloseTime($conn, $restaurant);
@@ -39,27 +42,29 @@ $description = getDescription($conn, $restaurant);
 	</header>
 	<main class="site-content">
 	<div class="container">
-		<div class="jumbotron border text-light text-center splash" id="splashSuzyLee" style="background-image">
+		<div class="jumbotron border text-light text-center splash" id="splash<?php echo $restVar; ?>" style="background-image">
 			<h1 class="display-4"><?php echo $restaurant;?> Menu</h1>
 			<p class="lead"><?php echo "$description"; ?></p>
 			<p>Opening Hours: <?php echo "$openTime - $closeTime"; ?></p>
 		</div>
 
 		<div class="row">
-		 <div class="col-sm-12 col-md-8">
+		 <div class="col-sm-12 col-lg-8">
 			 <div class="card mb-4">
 				 <div class="card-body">
 					 <h5 class="card-title text-center"><?php echo $restaurant;?> Menu</h5>
+					 <div class="table-responsive">
 					 <?php
 					 if ($_SESSION["loggedIn"] == true)
 					 {
-						 	buildCafeMenu(array('Item', 'Price', 'Type', 'In Cart'), $conn, $querySuzyLeeList, $_SESSION["loggedIn"], true);
+						 	buildCafeMenu(array('Item', 'Price', 'Type', 'In Cart'), $conn, $querySuzyLeeList, $_SESSION["loggedIn"], false);
 					 }
 					 else
 					 {
-						 buildCafeMenu(array('Item', 'Price', 'Type'), $conn, $querySuzyLeeList, $_SESSION["loggedIn"], true);
+						 buildCafeMenu(array('Item', 'Price', 'Type'), $conn, $querySuzyLeeList, $_SESSION["loggedIn"], false);
 					 }
 					 ?>
+					 </div>
 				 </div>
 			 </div>
 		 </div>
@@ -85,7 +90,7 @@ $description = getDescription($conn, $restaurant);
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
+	<script src="js/thirdParty/bootstrap-input-spinner.js"></script>
 	<script>
 	//
 		$(function() {

@@ -34,3 +34,6 @@ function buildCafeCart()
 	//Print total value
 	$("#cartTotal").append("$"+total.toFixed(2));
 }
+
+//BootStrap Spinner override for cart functionality
+$("input[type='number']").inputSpinner();

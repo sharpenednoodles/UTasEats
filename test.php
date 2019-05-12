@@ -63,46 +63,6 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-sm-12 col-md-8">
-						<div class="card mb-4">
-							<div class="card-body text-center">
-								<h5 class=card-title>Database Master List Demo</h5>
-								<?php
-									buildMasterList(array('Item', 'Price', 'Description', 'Type', 'Cafes'), $conn, $queryMasterList);
-								?>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-12 col-md-12">
-						<div class="card mb-4">
-							<div class="card-body text-center">
-								<h5 class=card-title>Lazenbys List Demo</h5>
-								<?php
-									buildCafeMenu(array('Item', 'Price', 'Type', 'In Cart'), $conn, $queryLazenbysList);
-								?>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-12 col-md-12">
-						<div class="card mb-4">
-							<div class="card-body text-center">
-								<h5 class=card-title>Suzy Lee List Demo</h5>
-								<?php
-									buildMasterList(array('Item', 'Price', 'Description', 'Type', 'Cafes'), $conn, $querySuzyLeeList);
-								?>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-12 col-md-12">
-						<div class="card mb-4">
-							<div class="card-body text-center">
-								<h5 class=card-title>Trade Table List Demo</h5>
-								<?php
-									buildMasterList(array('Item', 'Price', 'Description', 'Type', 'Cafes'), $conn, $queryTradeTableList);
-								?>
-							</div>
-						</div>
-					</div>
 					<div class="col-sm-12 col-md-3">
 						<div class="card mb-4">
 							<div class="card-body text-center">
@@ -126,20 +86,56 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-sm-12 col-md-3">
+					<div class="col-sm-12 col-md-5">
 						<div class="card mb-4">
 							<div class="card-body text-center">
 								<h5 class=card-title>Date converter test</h5>
 								<div class="text-left">
 									<?php
-										$originDate = "07/05/2019";
-										echo "<p>Original Date = $originDate</p>";
+										$originDate = "14/05/2019";
+										echo "<p>Original Date: $originDate</p>";
 										$newDate = date_format(date_create_from_format('d/m/Y', $originDate), 'Y-m-d');
-										echo "<p>New Date = $newDate</p>";
+										echo "<p>New Date: $newDate</p>";
+										$currentDate = date('Y-m-d');
+										echo "<p>Current Date: $currentDate</p>";
+
+										if ($currentDate < $newDate)
+										{
+											echo "<p>Current Date ($currentDate) < ($newDate)</p>";
+										}
+										else
+										{
+											echo "<p>Current Date ($currentDate) > ($newDate)</p>";
+										}
+
 									?>
 								</div>
 							</div>
 						</div>
+					</div>
+					<div class="col-sm-12 col-md-5">
+						<div class="card mb-4">
+							<div class="card-body text-centre">
+								<h5 class="card-title">Buttons</h5>
+								<table>
+									<thead>
+										<th>Haha</th>
+									</thead>
+									<tbody>
+										<td><button type="button" class="btn btn-success btn-sm">+</button><button type="button" class="btn btn-danger btn-sm">-</button></td>
+										<td>
+											<div class="btn-group btn-group-sm" role="group">
+												<button type="button" class="btn btn-secondary">-</button>
+												<button type="button" class="btn btn-secondary">+</button>
+											</div>
+										</td>
+									</tbody>
+								</table>
+
+							</div>
+
+						</div>
+
 					</div>
 				</div>
 			</div>

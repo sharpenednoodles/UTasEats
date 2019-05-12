@@ -4,12 +4,6 @@
 .jumbotron {
     border-top: 3px solid rgb(219, 219, 219);
 		background-color: #ffffff;
-		/*
-
-		Old style
-		background-image: url("../res/img/CafeBG.jpg");
-		background-size: cover
-		*/
 }
 
 /*
@@ -50,12 +44,7 @@ Square buttons
 	background-image: url("../res/img/TradeTableBG.jpg");
 	background-size: cover;
 }
-/*
-Pad the body to allow a persistent navbar - currently disabled
-body {
-  padding: 58px 0 0 0;
-}
-*/
+
 body {
 	font-family: 'Raleway', sans-serif;
 	background-color: #e9ecef;

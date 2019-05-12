@@ -69,26 +69,29 @@ function buildCafeBody($rowLabels, $sqli, $SQLQuery, $isCart, $includeExpiry)
 {
 	echo "<tbody>";
 	$tableContent = $sqli->query($SQLQuery);
-
+	$currentDate = date('Y-m-d');
 	if ($tableContent->num_rows > 0)
 	{
 		while($row = $tableContent->fetch_assoc())
 		{
-			//TODO check if item is in valid range before echoing table
-			echo("<tr id =".$row["itemID"].">");
-			foreach ($rowLabels as $rowLabel)
+			//If includeExpiry is true we print regardelss, otherwise we check the current date against the expiry and start times - which we will set to true if the values are N/A
+			if ($includeExpiry == true || ((($row['endDate'] >= $currentDate) || $row['endDate'] == "N/A") && (($row['startDate'] <= $currentDate) || $row['startDate'] == "N/A")))
 			{
-				echo("<td>" .$row["$rowLabel"]."</td>");
+				//TODO check if item is in valid range before echoing table
+				echo("<tr id =".$row["itemID"].">");
+				foreach ($rowLabels as $rowLabel)
+				{
+					echo("<td>" .$row["$rowLabel"]."</td>");
+				}
+				//Add item for ordering quantity
+				if ($isCart)
+				{
+					echo "<td style=\"width: 150px\"><div class=\"input-group\">";
+						echo "<input type=\"number\" value=\"0\" min=\"0\" max=\"99\" step=\"1\" class=\"form-control\" id=\"itemQuantity\">";
+					echo "</div></td>";
+				}
+				echo("</tr>");
 			}
-			//Add item for ordering quantity
-			if ($isCart)
-			{
-
-				echo "<td><div class=\"input-group\">";
-					echo "<input type=\"number\" value=\"0\" min=\"0\" step=\"1\" class=\"form-control\" id=\"itemQuantity\" style=\"width: 10vw\">";
-				echo "</div></td>";
-			}
-			echo("</tr>");
 		}
 	}
 	echo "</tbody>";
