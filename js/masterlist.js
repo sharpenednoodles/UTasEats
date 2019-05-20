@@ -152,12 +152,13 @@ function deleteSelect(selectedColumn)
 			$("#editItemType").val(editItemType);
 
 			//Parse and set date timers if they exist
-			if(startDate != "N/A")
+			//Second or statement is because Alacritas is setup incorrectly, and will fill a non specified date field, with zeros instead of NULL, like the default.
+			if (!(startDate == "N/A" || startDate =="0000-00-00"))
 			{
 				startDateFormat = startDate.split("-").reverse().join("/");
 				$("#editItemStart").val(startDateFormat);
 			}
-			if(endDate != "N/A")
+			if (!(endDate == "N/A" || endDate =="0000-00-00"))
 			{
 				endDateFormat = endDate.split("-").reverse().join("/");
 				$("#editItemEnd").val(endDateFormat);

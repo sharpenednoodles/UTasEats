@@ -272,7 +272,7 @@ HEAD;
 							<?php
 							$fetchItemDates = "SELECT masterFoodList.name as name, foodType.name as type, IFNULL(DATE_FORMAT(startDate, \"%W, %D %M, %Y\"), 'N/A')
 							as startDate, IFNULL(DATE_FORMAT(endDate, \"%W, %D %M, %Y\"),'N/A') as endDate
-							FROM masterFoodList inner join foodType on masterFoodList.type = foodType.typeID where not isNULL(startDate) or not isNULL(endDate)";
+							FROM masterFoodList inner join foodType on masterFoodList.type = foodType.typeID where not startDate = \"N/A\" or not endDate = \"N/A\"";
 							buildGenericList(array('Item', 'Type', 'Start Date', 'End Date'), array('name', 'type', 'startDate', 'endDate'), $conn, $fetchItemDates);
 							?>
 						</div>
