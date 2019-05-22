@@ -11,6 +11,7 @@ require("res/php/cafeDetails.php");
 $restaurant = "Suzy Lee";
 
 $restVar = str_replace(' ', '', $restaurant);
+$cafeID = getID($conn, $restaurant);
 $openTime = getOpenTime($conn, $restaurant);
 $openTime = date("g:ia", strtotime($openTime));
 $closeTime = getCloseTime($conn, $restaurant);

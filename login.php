@@ -34,7 +34,7 @@ require("res/php/userAccessLevel.php");
 	<div class="jumbotron border">
 		<h1>Sign In</h1>
 		<p class=lead>Sign into your Y.E.O.M./UTasEats Account below.<p/>
-		<p>Backend login verification is currently non-functional. See a site administrator for details.</p>
+		<p>If you do not have an account you may register one <a href="registration.php">here</a></p>
 	</div>
 
 <div class="row justify-content-md-center">

@@ -35,4 +35,34 @@ function getDescription($sqli, $cafeName)
 	}
 	return strval($value);
 }
+
+function getID($sqli, $cafeName)
+{
+	$result = $sqli->query("SELECT cafeID FROM cafe where cafe.name= '$cafeName'");
+	while($row = $result->fetch_assoc())
+	{
+		$value = $row["cafeID"];
+	}
+	return strval($value);
+}
+
+function getCafeName($sqli, $cafeID)
+{
+	$result = $sqli->query("SELECT cafe.name FROM cafe where cafe.cafeID= '$cafeID'");
+	while($row = $result->fetch_assoc())
+	{
+		$value = $row["name"];
+	}
+
+	return strval($value);
+}
+
+function roundToQuarterHour($timestring)
+{
+	//15 minutes = 60 seconds * 15
+	$round = 15*60;
+	$rounded = ceil($timestring / $round) * $round;
+	return $rounded;
+}
+
  ?>

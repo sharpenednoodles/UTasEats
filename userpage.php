@@ -8,6 +8,7 @@ session_start();
 include("res/php/userAccessLevel.php");
 include("res/db/dbConn.php");
 include("res/db/dbQueries.php");
+include("res/php/generateTable.php");
 include("res/php/accountDetails.php");
 require("res/php/cafeDetails.php");
 
@@ -87,42 +88,90 @@ NEWUSER;
 NEWUSER;
 			}
 			?>
+
 			<div class="col-md-12">
 				<div class="card mb-4">
-	  			<div class="row no-gutters">
-	    			<div class="col-md-2">
-	      			<img src="https://www.searchpng.com/wp-content/uploads/2019/02/Profile-PNG-Icon.png" class="card-img" alt="">
-	    			</div>
-				    <div class="col">
-				      <div class="card-body">
-				        <h5 class="card-title"><?php echo $_SESSION['firstName'] ." ".$_SESSION['lastName']; ?></h5>
-				        <p class="card-text"><?php echo($welcomeMessage) ?></p>
-				      </div>
-				    </div>
-				  </div>
+					<div class="card-body">
+
+
+					<div class="row">
+					  <div class="col-md-3 cold-12-sm mb-4">
+					    <div class="nav flex-column nav-pills" role="tablist">
+					      <a class="nav-link active" data-toggle="pill" href="#home-pill" role="tab">Home</a>
+								<a class="nav-link" data-toggle="pill" href="#profile-pill" role="tab">My Profile</a>
+					      <a class="nav-link" data-toggle="pill" href="#order-pill" role="tab">My Orders</a>
+								<a class="nav-link" data-toggle="pill" href="#funds-pill" role="tab">Add Funds</a>
+					      <a class="nav-link" data-toggle="pill" href="#manageOrder-pill" role="tab">Manage Orders</a>
+								<a class="nav-link" data-toggle="pill" href="#manageUsers-pill" role="tab">Manage Accounts</a>
+								<a class="nav-link" data-toggle="pill" href="#manageShifts-pill" role="tab">Manage Shifts</a>
+								<a class="nav-link" href="masterList.php" role="tab">Manage Menus</a>
+								<a class="nav-link" data-toggle="pill" href="#viewShifts-pill" role="tab">View Shifts</a>
+					    </div>
+					  </div>
+					  <div class="col-md-9 col-sm-12">
+					    <div class="tab-content">
+					      <div class="tab-pane fade show active" id="home-pill" role="tabpanel">
+
+									<div class="row no-gutters">
+								    <div class="col">
+							        <h4><?php echo $_SESSION['firstName'] ." ".$_SESSION['lastName']; ?></h4>
+											<p><small class="text-muted"><?php echo getUserRole($_SESSION['accessLevel']); ?></small></p>
+							        <p class="card-text"><?php echo($welcomeMessage) ?></p>
+								    </div>
+										<div class="col-md-3">
+											<img src="<?php echo $_SESSION['profilePicture'];?>" class="card-img" alt="">
+										</div>
+								  </div>
+
+								</div>
+								<div class="tab-pane fade" id="profile-pill" role="tabpanel">
+									<?php require("res/php/manageProfilePill.php") ?>
+								</div>
+					      <div class="tab-pane fade" id="order-pill" role="tabpanel">
+									<?php require("res/php/myOrdersPill.php") ?>
+								</div>
+					      <div class="tab-pane fade" id="funds-pill" role="tabpanel">
+									<?php require("res/php/manageFundsPill.php") ?>
+								</div>
+								<div class="tab-pane fade" id="manageOrder-pill" role="tabpanel">
+									<?php require("res/php/manageOrdersPill.php") ?>
+								</div>
+								<div class="tab-pane fade" id="manageUsers-pill" role="tabpanel">
+									<?php require("res/php/manageUsersPill.php") ?>
+								</div>
+								<div class="tab-pane fade" id="manageShifts-pill" role="tabpanel">
+									<h4>Manage Shifts</h4>
+									<p>Functionality unimplemented</p>
+								</div>
+								<div class="tab-pane fade" id="viewShifts-pill" role="tabpanel">
+									<h4>View Shifts</h4>
+									<p>You have no upcoming shifts.</p>
+								</div>
+					    </div>
+					  </div>
+					</div>
+					</div>
 				</div>
 			</div>
+
 			<?php
 			switch((int)$_SESSION['accessLevel'])
 			{
 				case UserAccessLevel::BoardDirector:
 				//specific includes just for board director
-				require("res/php/boardMemberSecurityCard.php");
 				case UserAccessLevel::BoardMember:
 				//specific includes for board memebers
-				require("res/php/cafeManagerSecurityCard.php");
-				require("res/php/masterListCard.php");
 				break;
 				case UserAccessLevel::CafeManager:
-				require("res/php/masterListCard.php");
+				break;
 				case UserAccessLevel::CafeStaff:
-				require("res/php/rosterCard.php");
 				break;
 				case UserAccessLevel::UserStudent:
+				break;
 				case UserAccessLevel::UserStaff:
-				require("res/php/menuCards.php");
 				break;
 			}
+			require("res/php/menuCards.php");
 			 ?>
 			</div>
 			<?php

@@ -13,6 +13,8 @@
 		$_SESSION['email'] = $row['email'];
 		$_SESSION['accountBalance'] = "$".$row['accountBalance'];
 		$_SESSION['CCNumber'] = $row['CCnumber'];
+		$_SESSION['userNum'] = $row['ID'];
+		$_SESSION['profilePicture'] = $row['imagePath'];
 	}
 
 	$query->close();

@@ -1,6 +1,7 @@
 //Code is still very unfinished
 
 var items = [];
+var total = 0;
 //Update quantities
 $("tr").change(function()
 {
@@ -18,7 +19,7 @@ function buildCafeCart()
 	//console.log(items);
 	$("#itemCart").empty();
 	$("#cartTotal").empty();
-	var total = 0;
+	total = 0;
 	for (i = 0; i < items.length; i ++)
 	{
 		if (items[i] != null && items[i][1] > 0)
@@ -33,7 +34,42 @@ function buildCafeCart()
 	}
 	//Print total value
 	$("#cartTotal").append("$"+total.toFixed(2));
+	//Cookies.set("ItemCart", JSON.stringify(items));
 }
 
 //BootStrap Spinner override for cart functionality
 $("input[type='number']").inputSpinner();
+
+//Send the item ID, and the quantity for the order to be processed by php POST methods
+function buildPostSubmission()
+{
+	var j = 0;
+	for (i=0; i < items.length; i++)
+	{
+		if (items[i] != null && items[i][1] > 0)
+		{
+			$("#orderForm").append("<input type='hidden' name='item"+j+"[id]' value="+i+">");
+			$("#orderForm").append("<input type='hidden' name='item"+j+"[quantity]' value="+items[i][1]+">");
+			j++;
+		}
+	}
+	$("#orderForm").append("<input type = 'hidden' name='itemCount' value="+j+">");
+	$("#orderForm").append("<input type = 'hidden' name='price' value="+total+">");
+	$("#orderForm").append("<input type = 'hidden' name='cafe' value="+$("#orderForm").attr("cafe")+">");
+}
+
+
+//Handle form submission
+//Need to check whether the user can afford to pay for the items
+$("#checkOutButton").click(function()
+{
+	buildPostSubmission();
+	$("#orderForm").submit();
+});
+
+//Read from cookie
+$(document).ready(function(){
+	//items = JSON.parse(Cookies.get("Item Cart"));
+	//buildCafeCart();
+	buildCafeCart();
+});

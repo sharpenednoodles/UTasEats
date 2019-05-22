@@ -52,6 +52,7 @@ INSERT INTO foodType (name) VALUES('Drink');
 CREATE TABLE masterFoodList (
 	itemID int unsigned not null auto_increment,
 	name varchar(32) not null,
+	imagePath varchar(255),
 	price decimal(4,2) not null,
 	description TEXT,
 	type tinyint unsigned not null,
@@ -100,8 +101,8 @@ INSERT INTO accountType(accountType, accessCode) VALUES ('Board Director', 'DB')
 INSERT INTO accountType(accountType, accessCode) VALUES ('Board Member', 'BM');
 INSERT INTO accountType(accountType, accessCode) VALUES ('Cafe Manager', 'CM');
 INSERT INTO accountType(accountType, accessCode) VALUES ('Cafe Staff', 'CS');
-INSERT INTO accountType(accountType, accessCode) VALUES ('User Staff', 'UE');
-INSERT INTO accountType(accountType, accessCode) VALUES ('User Student', 'US');
+INSERT INTO accountType(accountType, accessCode) VALUES ('UTAS Staff', 'UE');
+INSERT INTO accountType(accountType, accessCode) VALUES ('UTAS Student', 'US');
 
 -- User Information table
 -- TODO remove duplication between userName and accountNum fields
@@ -112,6 +113,7 @@ CREATE TABLE users (
 	password varchar(255) not null,
 	email varchar(255) not null,
 	activeAccount boolean not null default true,
+	imagePath varchar(255) default "res/img/defaultProfile.png",
 	-- foreign key for account types
 	accountTypeKey smallint unsigned not null,
 	idNumber varchar(6),
@@ -152,3 +154,34 @@ INSERT INTO users (username, password, accountTypeKey, firstName, lastName, CCnu
 	'male',
 	'johnsmith@gmail.com'
 );
+
+-- Store order data
+CREATE TABLE orderList (
+	ID int unsigned not null auto_increment,
+	userID int unsigned,
+	price decimal(6, 2),
+	cafeID tinyint unsigned not null,
+	pickupTime TIME not null,
+	orderNotes TEXT,
+	paid boolean default 0,
+	orderCompleted boolean default 0,
+	orderPickedUp boolean default 0,
+	orderDelivered boolean default 0,
+	creationTimeStamp timestamp not null default current_timestamp,
+	primary key(ID),
+	index(userID),
+	index(cafeID),
+	foreign key(userID) REFERENCES users(ID),
+	foreign key(cafeID) REFERENCES cafe(cafeID)
+) ENGINE=InnoDB;
+
+-- Pivot table to store items within the order
+CREATE TABLE item_to_order (
+	orderID int unsigned not null,
+	itemID int unsigned not null,
+	quantity int unsigned,
+	index(orderID),
+	index(itemID),
+	foreign key(orderID) REFERENCES orderList(ID) on delete cascade,
+	foreign key(itemID) REFERENCES masterFoodList(itemID) on delete cascade
+) ENGINE=InnoDB;

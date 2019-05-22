@@ -193,7 +193,6 @@ if(isset($_POST['delete']))
 			<div class="jumbotron border">
 				<h1 class="display-4">Master List</h1>
 				<p class="lead">Manage available menu items below.</p>
-				<p> Page Under Construction</p>
 			</div>
 		</div>
 HEAD;
@@ -231,6 +230,7 @@ HEAD;
 	 					<h5 class="card-title text-center">Master List Management</h5>
 						<div class="table-responsive-sm">
 							<?php
+								//Switch so that managers can only view a single restaurant
 								buildMasterList(array('Item', 'Price', 'Description', 'Type', 'Cafes'), $conn, $queryMasterList);
 							?>
 						</div>
@@ -250,20 +250,8 @@ HEAD;
 					</div>
 					</div>
 				</div>
-
-				<div class="col-sm-12 col-md-4">
-					<div class="card mb-4">
-						<div class="card-body text-center">
-							<h5 class=card-title>Debug: Post Variable Contents</h5>
-							<p class="card-text">
-								<?php
-								print_r($_POST);
-								 ?>
-							</p>
-						</div>
-					</div>
-				</div>
 			</div>
+
 			<div class="row">
 				<div class="col-sm-12 col-md-10">
 					<div class="card mb-4">
@@ -276,9 +264,7 @@ HEAD;
 							buildGenericList(array('Item', 'Type', 'Start Date', 'End Date'), array('name', 'type', 'startDate', 'endDate'), $conn, $fetchItemDates);
 							?>
 						</div>
-
 					</div>
-
 				</div>
 			</div>
 	</div>
@@ -292,7 +278,7 @@ HEAD;
 	      <div class="modal-content">
 	         <div class="modal-header">
 	            <h5 class="modal-title" id="newItemModalTitle">New Item</h5>
-	            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	            <button type="button" id="crossNewButton" class="close" data-dismiss="modal" aria-label="Close">
 	            <span aria-hidden="true">&times;</span>
 	            </button>
 	         </div>
@@ -364,7 +350,7 @@ HEAD;
 	      <div class="modal-content">
 	         <div class="modal-header">
 	            <h5 class="modal-title" id="editItemModalTitle">Edit Item</h5>
-	            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	            <button type="button" id="crossEditButton" class="close" data-dismiss="modal" aria-label="Close">
 	            <span aria-hidden="true">&times;</span>
 	            </button>
 	         </div>
@@ -512,11 +498,19 @@ HEAD;
 						footer: true
 				 });
 
-		//TODO need to clear previous data valiadation
+		//Clear modal data on close
 		$("#closeNewButton").click(function() {
 			$("#newItemForm").trigger("reset");
 		});
+		$("#crossNewButton").click(function() {
+			$("#newItemForm").trigger("reset");
+		});
 		$("#closeEditButton").click(function() {
+			//Delete hidden field with edit ID
+			$("#tempEditField").remove();
+			$("#editItemForm").trigger("reset");
+		});
+		$("#crossEditButton").click(function() {
 			//Delete hidden field with edit ID
 			$("#tempEditField").remove();
 			$("#editItemForm").trigger("reset");
