@@ -17,7 +17,6 @@ if ($getUserLevels->num_rows > 0)
 	}
 }
 
-
 if(isset($_POST["permissionChange"]))
 {
 	$newAccessLevel = array_search($_POST['permissionChange'], $permissionLevelNames);

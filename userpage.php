@@ -101,18 +101,28 @@ NEWUSER;
 								<a class="nav-link" data-toggle="pill" href="#profile-pill" role="tab">My Profile</a>
 					      <a class="nav-link" data-toggle="pill" href="#order-pill" role="tab">My Orders</a>
 								<a class="nav-link" data-toggle="pill" href="#funds-pill" role="tab">Add Funds</a>
-					      <a class="nav-link" data-toggle="pill" href="#manageOrder-pill" role="tab">Manage Orders</a>
-								<a class="nav-link" data-toggle="pill" href="#manageUsers-pill" role="tab">Manage Accounts</a>
-								<a class="nav-link" data-toggle="pill" href="#manageStaff-pill" role="tab">Manage Staff</a>
-								<a class="nav-link" data-toggle="pill" href="#manageShifts-pill" role="tab">Manage Shifts</a>
-								<a class="nav-link" href="masterList.php" role="tab">Manage Menus</a>
-								<a class="nav-link" data-toggle="pill" href="#viewShifts-pill" role="tab">View Shifts</a>
+								<?php
+								switch((int)$_SESSION['accessLevel'])
+								{
+									case userAccessLevel::BoardDirector:
+									case userAccessLevel::BoardMember:
+									case userAccessLevel::CafeManager:
+									echo "<a class='nav-link' data-toggle='pill' href='#manageOrder-pill' role='tab'>Manage Orders</a>";
+									echo "<a class='nav-link' data-toggle='pill' href='#manageUsers-pill' role='tab'>Manage Accounts</a>";
+									echo "<a class='nav-link' data-toggle='pill' href='#manageStaff-pill' role='tab'>Manage Staff</a>";
+									echo "<a class='nav-link' data-toggle='pill' href='#manageShifts-pill' role='tab'>Manage Shifts</a>";
+									echo "<a class='nav-link' data-toggle='pill' href='#manageCafes-pill' role='tab'>Manage Cafes</a>";
+									case userAccessLevel::CafeStaff:
+									echo "<a class='nav-link' href='masterList.php' role='tab'>Manage Menus</a>";
+									echo "<a class='nav-link' data-toggle='pill' href='#viewShifts-pill' role='tab'>View Shifts</a>";
+									break;
+								}
+								 ?>
 					    </div>
 					  </div>
 					  <div class="col-lg-9 col-md-9 col-sm-12">
 					    <div class="tab-content">
 					      <div class="tab-pane fade show active" id="home-pill" role="tabpanel">
-
 									<div class="row no-gutters">
 								    <div class="col">
 							        <h4><?php echo $_SESSION['firstName'] ." ".$_SESSION['lastName']; ?></h4>
@@ -135,7 +145,6 @@ NEWUSER;
 											<img src="<?php echo $_SESSION['profilePicture'];?>" class="card-img" alt="">
 										</div>
 								  </div>
-
 								</div>
 								<div class="tab-pane fade" id="profile-pill" role="tabpanel">
 									<?php require("res/php/manageProfilePill.php") ?>
@@ -146,47 +155,56 @@ NEWUSER;
 					      <div class="tab-pane fade" id="funds-pill" role="tabpanel">
 									<?php require("res/php/manageFundsPill.php") ?>
 								</div>
+								<?php
+								switch((int)$_SESSION['accessLevel'])
+								{
+									case userAccessLevel::BoardDirector:
+									case userAccessLevel::BoardMember:
+									case userAccessLevel::CafeManager:
+									echo <<<FIRSTTAB
 								<div class="tab-pane fade" id="manageOrder-pill" role="tabpanel">
-									<?php require("res/php/manageOrdersPill.php") ?>
+FIRSTTAB;
+									require("res/php/manageOrdersPill.php");
+								echo <<<FIRSTTAB
 								</div>
 								<div class="tab-pane fade" id="manageUsers-pill" role="tabpanel">
-									<?php require("res/php/manageUsersPill.php") ?>
+FIRSTTAB;
+									require("res/php/manageUsersPill.php");
+									echo <<<FIRSTTAB
 								</div>
 								<div class="tab-pane fade" id="manageStaff-pill" role="tabpanel">
-									<?php require("res/php/manageStaffPill.php") ?>
+FIRSTTAB;
+								require("res/php/manageStaffPill.php");
+								echo <<<FIRSTTAB
 								</div>
 								<div class="tab-pane fade" id="manageShifts-pill" role="tabpanel">
 									<h4>Manage Shifts</h4>
 									<p>Functionality unimplemented</p>
 								</div>
+								<div class="tab-pane fade" id="manageCafes-pill" role="tabpanel">
+									<h4>Manage Cafes</h4>
+FIRSTTAB;
+									echo "<p>Functionality unimplemented</p>";
+									echo <<<FIRSTTAB
+								</div>
+FIRSTTAB;
+								case UserAccessLevel::CafeStaff:
+								echo <<<SECCONDTAB
 								<div class="tab-pane fade" id="viewShifts-pill" role="tabpanel">
 									<h4>View Shifts</h4>
 									<p>You have no upcoming shifts.</p>
 								</div>
+SECCONDTAB;
+							break;
+						}
+						?>
 					    </div>
 					  </div>
 					</div>
 					</div>
 				</div>
 			</div>
-
 			<?php
-			switch((int)$_SESSION['accessLevel'])
-			{
-				case UserAccessLevel::BoardDirector:
-				//specific includes just for board director
-				case UserAccessLevel::BoardMember:
-				//specific includes for board memebers
-				break;
-				case UserAccessLevel::CafeManager:
-				break;
-				case UserAccessLevel::CafeStaff:
-				break;
-				case UserAccessLevel::UserStudent:
-				break;
-				case UserAccessLevel::UserStaff:
-				break;
-			}
 			require("res/php/menuCards.php");
 			 ?>
 			</div>
@@ -256,6 +274,7 @@ DEBUG;
 	<script src="js/rechargeFunds.js"></script>
 	<script src="js/editStaff.js"></script>
 	<script src="js/editUsers.js"></script>
+	<script src="js/manageOrder.js"></script>
 	<script>
 	//For proper appearance where no php is available, ie my text editor
 		$(function() {

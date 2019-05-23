@@ -13,6 +13,16 @@
 		}
 	}
 
+//Hide invalid permissions for user upgrade prompt
+	switch((int)$_SESSION['accessLevel'])
+	{
+		case userAccessLevel::CafeManager:
+		unset($permissionLevelNames[2]);
+		case userAccessLevel::BoardMember:
+		unset($permissionLevelNames[1]);
+		break;
+	}
+
 	$userQuery = "SELECT *, users.ID as userID, users.userName as userName from users inner join accountType on users.accountTypeKey = accountType.ID";
 	buildCustomGenericList(array("User ID", "First Name", "Last Name", "Access Level"), array("userName", "firstName", "lastName", "accountType"), $conn, $userQuery, "UserAccountSelect", "userID");
 	 ?>

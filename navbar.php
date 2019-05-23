@@ -47,6 +47,21 @@ MASTER;
 			echo "</li>";
 			break;
 			}
+			switch((int)$_SESSION['accessLevel'])
+			{
+				case UserAccessLevel::BoardDirector:
+				case UserAccessLevel::BoardMember:
+				case UserAccessLevel::CafeManager:
+				echo "<li class=\"nav-item LoggedInAdmin\" id=\"navMasterListButton\">";
+				echo "<a class=\"nav-link\" href=\"orderList.php\">All Orders</a>";
+				echo "</li>";
+				break;
+				case UserAccessLevel::CafeStaff:
+				echo "<li class=\"nav-item LoggedInAdmin\" id=\"navMasterListButton\">";
+				echo "<a class=\"nav-link\" href=\"orderList.php\">".$_SESSION['cafeEmployment']." Orders</a>";
+				echo "</li>";
+				break;
+			}
 			 ?>
 		</ul>
 		<?php

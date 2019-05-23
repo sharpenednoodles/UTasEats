@@ -163,4 +163,89 @@ function finishTable()
 	echo "</div>";
 }
 
+//Function to build order cards, if completed false, then we won't display completed orders
+function buildOrderCards($sqli, $SQLQuery, $completed)
+{
+	echo "<div class='row'>";
+	$cardContent = $sqli->query($SQLQuery);
+	if ($cardContent->num_rows > 0)
+	{
+		while($row = $cardContent->fetch_assoc())
+		{
+			$status = calculateOrderStatus($row['paid'], $row['orderCompleted'], $row['orderPickedUp']);
+			if(($completed == false && $status !='Completed') || $completed == true)
+			{
+				$colour = getCardColour($status);
+				echo "<div class='col-sm-12 col-md-4'>";
+				echo "<div class='card mb-4 text-center bg-$colour text-white'>";
+				echo "<div class='card-header'>Order #".$row['ID']." - ".$row['cafe']."</div>";
+				echo "<div class ='card-body bg-dark'>";
+				echo "<div class ='card-text'>".$row['quantity']." x ".$row['name']."</div>";
+				echo "</div>";
+				echo"<ul class='list-group list-group-flush'>";
+					echo "<li class='list-group-item bg-$colour'>".$row['firstName']." ".$row['lastName']."</li>";
+				  echo "<li class='list-group-item bg-$colour'>Pickup Time: ".$row['pickupTime']."</li>";
+					echo "<li class='list-group-item bg-$colour'>Total Paid: ".$row['price']."</li>";
+					echo "<li class='list-group-item bg-dark'>Order Notes: ".$row['orderNotes']."</li>";
+			  echo "</ul>";
+				if ($status == "Unpaid")
+				{
+					echo "<button class='btn btn-$colour btn-lg text-white orderPaidButton' orderID='".$row['ID']."'>Order Paid</button>";
+				}
+				if ($status == "Needs Making")
+				{
+					echo "<button class='btn btn-$colour btn-lg text-white orderMadeButton' orderID='".$row['ID']."'>Order Made</button>";
+				}
+				if ($status == "Awaiting Pickup")
+				{
+					echo "<button class='btn btn-$colour btn-lg text-white orderCollectedButton' orderID='".$row['ID']."'>Order Collected</button>";
+				}
+				if ($status == "Completed")
+				{
+					echo "<button class='btn btn-$colour btn-lg text-white orderCompletedButton' orderID='".$row['ID']."'>Delete Order</button>";
+				}
+				echo "<div class='card-footer'><b>".$status."</b></div>";
+				echo "</div>";
+				echo "</div>";
+			}
+		}
+	}
+	echo "</div>";
+}
+
+function calculateOrderStatus($paid, $orderCompleted, $orderPickedUp)
+{
+	if ($paid == false)
+	{
+		return "Unpaid";
+	}
+
+	if ($orderCompleted == false)
+	{
+		return "Needs Making";
+	}
+	if ($orderPickedUp == false)
+	{
+		return "Awaiting Pickup";
+	}
+	return "Completed";
+}
+
+function getCardColour($status)
+{
+	if ($status =="Unpaid")
+	{
+		return "danger";
+	}
+	if ($status == "Needs Making")
+	{
+		return "info";
+	}
+	if ($status == "Awaiting Pickup")
+	{
+		return "success";
+	}
+	return "secondary";
+}
+
  ?>
