@@ -1,4 +1,5 @@
 <h4>Manage Cafe Staff</h4>
+<p>Change Cafe Staff by clicking on a user below.</p>
 <div class="table-responsive">
 	<?php
 	//Get cafe list from the DB and store in array

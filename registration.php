@@ -191,9 +191,8 @@ require("res/php/userAccessLevel.php");
 				}
 			});
 	</script>
-	<script type="text/javascript" src="js/registrationVerification.js">
-
-	</script>
+	<script type="text/javascript" src="js/registrationVerification.js"></script>
+	<script src="js/buildMenuDropDown.js"></script>
 
 	</body>
 </html>

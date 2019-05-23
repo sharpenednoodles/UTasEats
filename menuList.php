@@ -68,6 +68,7 @@ require("res/php/cafeDetails.php");
 				}
 			});
 	</script>
+	<script src="js/buildMenuDropDown.js"></script>
 
 	</body>
 </html>

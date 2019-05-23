@@ -275,6 +275,7 @@ DEBUG;
 	<script src="js/editStaff.js"></script>
 	<script src="js/editUsers.js"></script>
 	<script src="js/manageOrder.js"></script>
+	<script src="js/buildMenuDropDown.js"></script>
 	<script>
 	//For proper appearance where no php is available, ie my text editor
 		$(function() {

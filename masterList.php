@@ -604,5 +604,6 @@ CONTROLS;
 	</script>
 
 	<script src="js/masterlist.js"></script>
+	<script src="js/buildMenuDropDown.js"></script>
 	</body>
 </html>

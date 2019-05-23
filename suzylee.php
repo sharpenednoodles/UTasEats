@@ -103,8 +103,7 @@ $description = getDescription($conn, $restaurant);
 			});
 	</script>
 
-	<script type="text/javascript" src="js/shoppingCart.js">
-
-	</script>
+	<script type="text/javascript" src="js/shoppingCart.js"></script>
+	<script src="js/buildMenuDropDown.js"></script>
 	</body>
 </html>

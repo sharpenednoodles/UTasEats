@@ -116,5 +116,6 @@ switch((int)$_SESSION['accessLevel'])
 			});
 
 	</script>
+	<script src="js/buildMenuDropDown.js"></script>
 	</body>
 </html>

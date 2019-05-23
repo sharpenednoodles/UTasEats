@@ -31,20 +31,21 @@
 				    <label for="exampleFormControlSelect1">Pick-Up Time</label>
 				    <select class="form-control" name="PickUpTime">
 				      <?php
+							$cafeClosed;
 							$timeNow = time();
 							//$timeNow = strtotime(date("g:ia", "10:05am"));
 							$roundedNow = roundToQuarterHour($timeNow);
 
-							//Temp, for testing once close times are past 4pm IRL
-							//$closeTime = strtotime("11:55pm");
-
 							//Convert date to pure time
 							$openTime = strtotime($openTime);
 							$closeTime = strtotime($closeTime);
+							//Temp, for testing once close times are past 4pm IRL
+							$closeTime = strtotime("11:55pm");
 
 							if ($timeNow > $closeTime && $timeNow >= $openTime)
 							{
 								echo"<option>Restaurant Closed</option>";
+								$cafeClosed = true;
 							}
 							else
 							{
@@ -61,7 +62,12 @@
 							 ?>
 				    </select>
 				  </div>
-					<button type="button" id="checkOutButton" class="btn btn-dark" name="button">Check Out</button>
+					<?php
+					if ($cafeClosed != true)
+					{
+						echo "<button type='button' id='checkOutButton' class='btn btn-dark' name='button'>Check Out</button>";
+					}
+					 ?>
 			</form>
 	 </div>
  </div>

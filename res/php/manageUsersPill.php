@@ -1,5 +1,5 @@
 <h4>Manage User Accounts</h4>
-<p>Change user account permissions by clicking on the user below.</p>
+<p>Change user account permissions by clicking on a user below.</p>
 <div class="table-responsive">
 	<?php
 	//Get access levels from DB and store in array
