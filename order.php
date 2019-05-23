@@ -27,13 +27,13 @@ $insufficentFunds = $_SESSION['ORDER_insuffFunds'];
 $pickupTime = $_SESSION['ORDER_collectionTime'];
 
 //Flush temp session variable hack
-/*
+
 $_SESSION['ORDER_cafe'] = null;
 $_SESSION['ORDER_number'] = null;
 $_SESSION['ORDER_processed'] = null;
 $_SESSION['ORDER_insuffFunds'] = null;
 $_SESSION['ORDER_collectionTime'] = null;
-*/
+
 
  ?>
 <!DOCTYPE html>

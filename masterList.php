@@ -12,9 +12,9 @@ switch((int)$_SESSION['accessLevel'])
 	case userAccessLevel::BoardDirector:
 	case userAccessLevel::BoardMember:
 	case userAccessLevel::CafeManager:
+	case userAccessLevel::CafeStaff:
 	//do nothing
 	break;
-	case userAccessLevel::CafeStaff:
 	case userAccessLevel::UserStaff:
 	case userAccessLevel::UserStudent:
 	default:
@@ -102,19 +102,22 @@ if (isset($_POST['itemNameEdit']))
 
 	//Delete old item to cafe entries
 	//TODO only do this on changes
-
-	$deleteCafe = $conn->prepare("DELETE from item_to_cafe WHERE itemID = ?");
-	$deleteCafe->bind_param("i", $itemID);
-	$deleteCafe->execute();
-	$deleteCafe->close();
-	//Loop over all cafes selected with appropriate cafeIDs
-	$insertCafe = $conn->prepare("INSERT INTO item_to_cafe (itemID, cafeID) VALUES (?, ?)");
-	foreach ($cafeToAdd as $cafeID)
+	if(isset($_POST['1']) || isset($_POST['2']) || isset($_POST['3']))
 	{
-		$insertCafe->bind_param("ii", $itemID, $cafeID);
-		$insertCafe->execute();
-	}
-	$insertCafe->close();
+
+		$deleteCafe = $conn->prepare("DELETE from item_to_cafe WHERE itemID = ?");
+		$deleteCafe->bind_param("i", $itemID);
+		$deleteCafe->execute();
+		$deleteCafe->close();
+		//Loop over all cafes selected with appropriate cafeIDs
+		$insertCafe = $conn->prepare("INSERT INTO item_to_cafe (itemID, cafeID) VALUES (?, ?)");
+		foreach ($cafeToAdd as $cafeID)
+		{
+			$insertCafe->bind_param("ii", $itemID, $cafeID);
+			$insertCafe->execute();
+		}
+		$insertCafe->close();
+		}
 }
 
 //Add date as an edit
@@ -182,12 +185,11 @@ if(isset($_POST['delete']))
 
 	<main class="site-content">
 	<?php
-	//TODO Edit these so board directors, and cafe managers get different notices
+	//Change content based upon who is logged in
 	switch((int)$_SESSION['accessLevel'])
 	{
 		case userAccessLevel::BoardDirector:
 		case userAccessLevel::BoardMember:
-		case userAccessLevel::CafeManager:
 		echo <<<HEAD
 		<div class="container">
 			<div class="jumbotron border">
@@ -197,7 +199,22 @@ if(isset($_POST['delete']))
 		</div>
 HEAD;
 		break;
+		case userAccessLevel::CafeManager:
+		echo "<div class=\"container\">";
+			echo "<div class=\"jumbotron border\">";
+				echo "<h1 class=\"display-4\">".$_SESSION['cafeEmployment']." List</h1>";
+				echo "<p class=\"lead\">Manage available menu items in your cafe below.</p>";
+			echo "</div>";
+		echo "</div>";
+		break;
 		case userAccessLevel::CafeStaff:
+		echo "<div class=\"container\">";
+			echo "<div class=\"jumbotron border\">";
+				echo "<h1 class=\"display-4\">".$_SESSION['cafeEmployment']." List</h1>";
+				echo "<p class=\"lead\">View available menu items in your cafe below.</p>";
+			echo "</div>";
+		echo "</div>";
+		break;
 		case userAccessLevel::UserStaff:
 		case userAccessLevel::UserStudent:
 		echo <<<HEAD
@@ -214,44 +231,81 @@ HEAD;
 HEAD;
 	break;
 	}
-
-//TODO: move page code to an include require statement based upon user access level
-	//Furthur page elements
-	switch((int)$_SESSION['accessLevel'])
-	{
-
-	}
 	 ?>
 	 <div class="container">
 		 <div class="row">
 			<div class="col-sm-12 col-md-9 col-xl-10">
 	 			<div class="card mb-4">
 	 				<div class="card-body">
-	 					<h5 class="card-title text-center">Master List Management</h5>
+						<?php
+						switch((int)$_SESSION['accessLevel'])
+						{
+							case userAccessLevel::BoardDirector:
+							case userAccessLevel::BoardMember:
+							echo "<h5 class='card-title text-center' id='tableType' tableType='master'>Master List Management</h5>";
+							break;
+							case userAccessLevel::CafeManager:
+							case userAccessLevel::CafeStaff:
+							echo "<h5 class='card-title text-center' id='tableType' tableType='single'>".$_SESSION['cafeEmployment']." List Management</h5>";
+							break;
+						}
+						 ?>
 						<div class="table-responsive-sm">
 							<?php
 								//Switch so that managers can only view a single restaurant
-								buildMasterList(array('Item', 'Price', 'Description', 'Type', 'Cafes'), $conn, $queryMasterList);
+								//TODO - make this work with generics
+								switch((int)$_SESSION['accessLevel'])
+								{
+									case userAccessLevel::BoardDirector:
+									case userAccessLevel::BoardMember:
+									buildMasterList(array('Item', 'Price', 'Description', 'Type', 'Cafes'), $conn, $queryMasterList);
+									break;
+									case userAccessLevel::CafeManager:
+									case userAccessLevel::CafeStaff:
+									if ($_SESSION['cafeEmployment'] == 'Lazenbys')
+									{
+										buildMasterList(array('Item', 'Price', 'Description', 'Type', 'Cafes'), $conn, $queryLazenbysList);
+									}
+									elseif ($_SESSION['cafeEmployment'] == 'Suzy Lee')
+									{
+										buildMasterList(array('Item', 'Price', 'Description', 'Type', 'Cafes'), $conn, $querySuzyLeeList);
+									}
+									elseif ($_SESSION['cafeEmployment'] == 'Trade Table')
+									{
+										buildMasterList(array('Item', 'Price', 'Description', 'Type', 'Cafes'), $conn, $queryTradeTableList);
+									}
+									break;
+								}
 							?>
 						</div>
 	 					</div>
 	 				</div>
 	 			</div>
-				<div class="col-sm-12 col-md-3 col-xl-2 float-right">
-					<div class="card mb-4">
-						<div class="card-body">
-							<h5 class="card-title text-center">Item Controls</h5>
-							<div class="list-group">
-  							<button id="newButton" type="button" data-toggle="modal" data-target="#newItemModal" class="list-group-item list-group-item-success list-group-item-action">New Item</button>
-								<button id="deleteButton" type="button" class="list-group-item list-group-item-danger list-group-item-action">Delete</button>
-								<button id="multiDeleteButton" type="button" class="list-group-item list-group-item-warning list-group-item-action">Multi Delete</button>
-  							<button id="editButton" type="button" data-toggle="modal" data-target="#editItemModal" class="list-group-item list-group-item-info list-group-item-action">Edit Item</button>
+				<?php
+				switch((int)$_SESSION['accessLevel'])
+				{
+					case userAccessLevel::BoardDirector:
+					case userAccessLevel::BoardMember:
+					case userAccessLevel::CafeManager:
+					echo <<<CONTROLS
+					<div class="col-sm-12 col-md-3 col-xl-2 float-right">
+						<div class="card mb-4">
+							<div class="card-body">
+								<h5 class="card-title text-center">Item Controls</h5>
+								<div class="list-group">
+									<button id="newButton" type="button" data-toggle="modal" data-target="#newItemModal" class="list-group-item list-group-item-success list-group-item-action">New Item</button>
+									<button id="deleteButton" type="button" class="list-group-item list-group-item-danger list-group-item-action">Delete</button>
+									<button id="multiDeleteButton" type="button" class="list-group-item list-group-item-warning list-group-item-action">Multi Delete</button>
+									<button id="editButton" type="button" data-toggle="modal" data-target="#editItemModal" class="list-group-item list-group-item-info list-group-item-action">Edit Item</button>
+								</div>
 							</div>
+						</div>
 					</div>
-					</div>
-				</div>
+CONTROLS;
+			break;
+				}
+				 ?>
 			</div>
-
 			<div class="row">
 				<div class="col-sm-12 col-md-10">
 					<div class="card mb-4">
@@ -317,6 +371,10 @@ HEAD;
 								 </div>
 	               <div class="form-group">
 										<?php
+										switch((int)$_SESSION['accessLevel'])
+										{
+											case userAccessLevel::BoardDirector:
+											case userAccessLevel::BoardMember:
 											foreach ($cafeNames as $cafeID => $cafeName)
 											{
 												echo "<div class=\"form-check form-check-inline\">";
@@ -324,6 +382,8 @@ HEAD;
 												echo "<label class=\"form-check-label\"  for=\"$cafeID\">$cafeName</label>";
 												echo "</div>";
 											}
+											break;
+										}
 										 ?>
 	               </div>
 								 <div class="form-group">
@@ -389,6 +449,10 @@ HEAD;
 								 </div>
 	               <div class="form-group">
 										<?php
+										switch((int)$_SESSION['accessLevel'])
+										{
+											case userAccessLevel::BoardDirector:
+											case userAccessLevel::BoardMember:
 											foreach ($cafeNames as $cafeID => $cafeName)
 											{
 												echo "<div class=\"form-check form-check-inline\">";
@@ -396,6 +460,8 @@ HEAD;
 												echo "<label class=\"form-check-label\"  for=\"$cafeID\">$cafeName</label>";
 												echo "</div>";
 											}
+											break;
+										}
 										 ?>
 	               </div>
 								 <div class="form-group">

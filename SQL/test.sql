@@ -125,15 +125,15 @@ CREATE TABLE users (
 	CCName varchar(32),
 	CCCVC varchar(3),
 	CCExpDate varchar(7),
-	accountBalance decimal(6,2),
+	accountBalance decimal(8,2),
 	-- for cafe employees only
-	cafeEmployement tinyint unsigned,
+	cafeEmployment tinyint unsigned default 1,
 	creationTimeStamp datetime not null,
 	primary key (ID),
 	index (accountTypeKey),
-	index(cafeEmployement),
+	index(cafeEmployment),
 	foreign key(accountTypeKey) REFERENCES accountType(ID),
-	foreign key(cafeEmployement) REFERENCES cafe(cafeID)
+	foreign key(cafeEmployment) REFERENCES cafe(cafeID)
 ) ENGINE=InnoDB;
 
 -- User sample data

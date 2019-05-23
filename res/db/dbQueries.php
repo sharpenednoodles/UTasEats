@@ -14,7 +14,7 @@ $queryTradeTableList = $queryMasterBase." WHERE cafe.name = \"Trade Table\" orde
 $queryMasterList = $queryMasterBase." order by itemID";
 
 
-$queryMasterOrdersBase = "SELECT orderList.ID, users.username as user, CONCAT('$', orderList.price) as price, orderList.creationTimeStamp, cafe.name as cafe, pickupTime,
+$queryMasterOrdersBase = "SELECT orderList.ID, users.username as user, CONCAT('$', orderList.price) as price, orderList.creationTimeStamp, cafe.name as cafe, TRIM(LEADING '0' FROM TIME_FORMAT(pickupTime, \"%h:%i%p\")) as pickupTime,
 orderNotes, masterFoodList.name, quantity, paid, orderCompleted, orderPickedUp from orderList inner join cafe on cafe.cafeID = orderList.cafeID
 inner join users on userID = users.ID inner join item_to_order on orderList.ID = item_to_order.orderID
 inner join masterFoodList on item_to_order.itemID = masterFoodList.itemID";
@@ -29,6 +29,16 @@ $queryMasterOrders = $queryMasterOrdersBase." order by orderList.ID";
 function getSQLValue($sqli, $table, $rowLabel, $IDLabel, $IDValue)
 {
 	$result = $sqli->query("SELECT $rowLabel FROM $table where $IDLabel = '$IDValue'");
+	while($row = $result->fetch_assoc())
+	{
+		$value = $row[$rowLabel];
+	}
+	return strval($value);
+}
+
+function getSQLLikeValue($sqli, $table, $rowLabel, $IDLabel, $IDValue)
+{
+	$result = $sqli->query("SELECT $rowLabel FROM $table where $IDLabel like '%$IDValue'");
 	while($row = $result->fetch_assoc())
 	{
 		$value = $row[$rowLabel];

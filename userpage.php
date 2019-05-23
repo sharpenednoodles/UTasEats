@@ -26,7 +26,7 @@ $welcomeMessage = welcomeMessage($_SESSION['accessLevel']);
 //Give the user a interesting welcome
 function welcomeBanner()
 {
-	$welcomeWords = array("Welcome", "Salutations", "Bonjour", "Hello", "G'Day", "Guten Tag", "Buona Giornata", "Yoi Tsuitachi", "M'athchomaroon", "Hey", "Good to see you", "Hi", "Howdy","Sup", "Hiya");
+	$welcomeWords = array("Welcome", "Salutations", "Bonjour", "Hello", "G'Day", "Guten Tag", "Buona Giornata", "Yoi Tsuitachi", "M'athcho maroon", "Hey", "Good to see you", "Hi", "Howdy","Sup", "Hiya");
 	return $welcomeWords[rand(0,sizeof($welcomeWords)-1)];
 }
 ?>
@@ -95,7 +95,7 @@ NEWUSER;
 
 
 					<div class="row">
-					  <div class="col-md-3 cold-12-sm mb-4">
+					  <div class="col-lg-3 col-md-3 col-12-sm mb-4">
 					    <div class="nav flex-column nav-pills" role="tablist">
 					      <a class="nav-link active" data-toggle="pill" href="#home-pill" role="tab">Home</a>
 								<a class="nav-link" data-toggle="pill" href="#profile-pill" role="tab">My Profile</a>
@@ -103,19 +103,32 @@ NEWUSER;
 								<a class="nav-link" data-toggle="pill" href="#funds-pill" role="tab">Add Funds</a>
 					      <a class="nav-link" data-toggle="pill" href="#manageOrder-pill" role="tab">Manage Orders</a>
 								<a class="nav-link" data-toggle="pill" href="#manageUsers-pill" role="tab">Manage Accounts</a>
+								<a class="nav-link" data-toggle="pill" href="#manageStaff-pill" role="tab">Manage Staff</a>
 								<a class="nav-link" data-toggle="pill" href="#manageShifts-pill" role="tab">Manage Shifts</a>
 								<a class="nav-link" href="masterList.php" role="tab">Manage Menus</a>
 								<a class="nav-link" data-toggle="pill" href="#viewShifts-pill" role="tab">View Shifts</a>
 					    </div>
 					  </div>
-					  <div class="col-md-9 col-sm-12">
+					  <div class="col-lg-9 col-md-9 col-sm-12">
 					    <div class="tab-content">
 					      <div class="tab-pane fade show active" id="home-pill" role="tabpanel">
 
 									<div class="row no-gutters">
 								    <div class="col">
 							        <h4><?php echo $_SESSION['firstName'] ." ".$_SESSION['lastName']; ?></h4>
-											<p><small class="text-muted"><?php echo getUserRole($_SESSION['accessLevel']); ?></small></p>
+											<p><small class="text-muted">
+												<?php
+												echo getUserRole($_SESSION['accessLevel']);
+												//Display the resturant if person works as a manager, or cafe staff
+												switch((int)$_SESSION['accessLevel'])
+												{
+													case UserAccessLevel::CafeManager:
+													case UserAccessLevel::CafeStaff:
+													echo " - ".$_SESSION["cafeEmployment"];
+													break;
+												}
+												?>
+											</small></p>
 							        <p class="card-text"><?php echo($welcomeMessage) ?></p>
 								    </div>
 										<div class="col-md-3">
@@ -138,6 +151,9 @@ NEWUSER;
 								</div>
 								<div class="tab-pane fade" id="manageUsers-pill" role="tabpanel">
 									<?php require("res/php/manageUsersPill.php") ?>
+								</div>
+								<div class="tab-pane fade" id="manageStaff-pill" role="tabpanel">
+									<?php require("res/php/manageStaffPill.php") ?>
 								</div>
 								<div class="tab-pane fade" id="manageShifts-pill" role="tabpanel">
 									<h4>Manage Shifts</h4>
@@ -237,7 +253,9 @@ DEBUG;
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
+	<script src="js/rechargeFunds.js"></script>
+	<script src="js/editStaff.js"></script>
+	<script src="js/editUsers.js"></script>
 	<script>
 	//For proper appearance where no php is available, ie my text editor
 		$(function() {
@@ -247,8 +265,6 @@ DEBUG;
 				$("#footerAJAX").load("footer.html");
 				}
 			});
-
-
 	</script>
 
 	</body>

@@ -29,9 +29,8 @@ if (isset($_POST['password']))
 	//Log creation time
 	$creationTimeStamp = date("Y-m-d H:i:s");
 
-	//Generate a new user ID string
-	//TODO ensure user string does not already exist, else generate a new string
-	$userID = generateUserID($accessLevel);
+	//Generate a new unique user ID string
+	$userID = generateNewID($accessLevel, $conn);
 
 	$insertUser = $conn->prepare("INSERT INTO users (username, password, accountTypeKey, idNumber, firstName, lastName, gender, CCNumber, CCName, CCCVC, CCExpDate, accountBalance, creationTimeStamp, email) VALUES (?,?,?,?,?,?,?,?,?,?,?,5,?,?)");
 	$insertUser->bind_param("ssissssssssss", $userID, $password, $accessLevel, $_POST["IDNumber"], $_POST["firstName"], $_POST["lastName"], $_POST["radioGender"], $_POST["CCNumber"], strtoupper($_POST["CCName"]), $_POST["CVC"], $_POST["CCExp"], $creationTimeStamp, $_POST["emailAddress"]);
@@ -51,6 +50,17 @@ else
 	header('location: ../../index.php');
 }
 
+//Recursive call to prevent same number being generated
+function generateNewID($accessLevel, $conn)
+{
+	$userID = generateUserID($accessLevel);
+	$existingID = getSQLLikeValue($conn, 'users', 'username', 'username', $userID);
+	if ($existingID != null)
+	{
+		generateNewID($accessLevel, $conn);
+	}
+	return $userID;
+}
  ?>
  <!DOCTYPE html>
  <html lang="en" dir="ltr">
@@ -66,5 +76,9 @@ else
 		echo "<h1> ROW COUNT: $aids</h1>";
 		echo "<p>$count</p>";
 		 ?>
+		 <h5>Debug: Results Variable</h5>
+		 <p><?php echo($existingID); ?> </p>
+		 <h5>Debug: userID</h5>
+		 <p><?php echo($userID); ?> </p>
  	</body>
  </html>

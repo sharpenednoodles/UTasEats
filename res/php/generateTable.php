@@ -19,6 +19,14 @@ function buildGenericList($tableHeaders, $sqlHeaders, $sqli, $SQLQuery)
 	finishTable();
 }
 
+//Same as above, but we can specify a custom class for javascript interactivity, and an optional id from the table to classify with
+function buildCustomGenericList($tableHeaders, $sqlHeaders, $sqli, $SQLQuery, $customClass, $customID)
+{
+	buildHeaders($tableHeaders);
+	buildSQLBodyCustom($sqlHeaders, $sqli, $SQLQuery, $customClass, $customID);
+	finishTable();
+}
+
 function buildCafeMenu($tableHeaders, $sqli, $SQLQuery, $isCart, $includeExpiry)
 {
 	buildHeaders($tableHeaders);
@@ -54,6 +62,27 @@ function buildSQLBody($rowLabels, $sqli, $SQLQuery)
 		while($row = $tableContent->fetch_assoc())
 		{
 			echo("<tr id =".$row["itemID"].">");
+			foreach ($rowLabels as $rowLabel)
+			{
+				echo("<td>" .$row["$rowLabel"]."</td>");
+			}
+			echo("</tr>");
+		}
+	}
+	echo "</tbody>";
+}
+
+//Create body of table from array of SQL lables, SQL connection, query and adds a custom class to the rows - HELPER FUNCTION, DO NOT CALL DIRECTLY
+function buildSQLBodyCustom($rowLabels, $sqli, $SQLQuery, $customClass, $customID)
+{
+	echo "<tbody>";
+	$tableContent = $sqli->query($SQLQuery);
+
+	if ($tableContent->num_rows > 0)
+	{
+		while($row = $tableContent->fetch_assoc())
+		{
+			echo("<tr id =".$row[$customID]." class='$customClass'>");
 			foreach ($rowLabels as $rowLabel)
 			{
 				echo("<td>" .$row["$rowLabel"]."</td>");

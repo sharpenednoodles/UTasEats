@@ -277,6 +277,10 @@ function validateItemDescrip(itemDescrip)
 
 function validateNewItemRestaurant()
 {
+	if ($("#tableType").attr("tabletype") == 'single')
+	{
+		return true;
+	}
 	if ($('.newRestaurantSelector:checkbox:checked').length == 0)
 	{
 		$(".newRestaurantSelector").addClass("is-invalid");
@@ -291,6 +295,10 @@ function validateNewItemRestaurant()
 
 function validateEditItemRestaurant()
 {
+	if ($("#tableType").attr("tabletype") == 'single')
+	{
+		return true;
+	}
 	if ($('.editRestaurantSelector:checkbox:checked').length == 0)
 	{
 		$(".editRestaurantSelector").addClass("is-invalid");
