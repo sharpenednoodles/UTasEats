@@ -1,7 +1,7 @@
-//Code is still very unfinished
 
 var items = [];
 var total = 0;
+var cafe;
 //Update quantities
 $("tr").change(function()
 {
@@ -9,6 +9,7 @@ $("tr").change(function()
 	var itemName = $(this).find("td:nth-child(1)").text();
 	var price = parseFloat($(this).find("td:nth-child(2)").text().substring(1));
 	var quantity = parseFloat($(this).find("td:nth-child(4) input").val());
+	cafe = $("#orderForm").attr("cafe");
 
 	items[itemID] = [itemName, quantity, price];
 	buildCafeCart();

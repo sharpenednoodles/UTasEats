@@ -31,6 +31,7 @@ if(isset($_POST['markCompleted']))
 	$editOrder->bind_param("i", $_POST['markCompleted']);
 	$editOrder->execute();
 	$editOrder->close();
+	header('location: ../../userpage.php');
 }
 
 header('location: ../../orderList.php');

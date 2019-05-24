@@ -94,8 +94,7 @@ $_SESSION['ORDER_collectionTime'] = null;
 						$totalPaid = getSQLValue($conn, 'orderList', 'price', 'ID', $orderNumber);
 						echo"<b>Order Notes:</b>";
 						echo "<p>$orderNotes</p>";
-						echo"<b>Total Paid: $</b>";
-						echo "<p>$totalPaid</p>";
+						echo"<b>Total Paid: $</b>$totalPaid";
 					 }
 					  ?>
 				 </div>

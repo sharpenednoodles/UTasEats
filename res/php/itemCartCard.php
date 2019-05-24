@@ -40,9 +40,9 @@
 							$openTime = strtotime($openTime);
 							$closeTime = strtotime($closeTime);
 							//Temp, for testing once close times are past 4pm IRL
-							$closeTime = strtotime("11:55pm");
+							//$closeTime = strtotime("11:55pm");
 
-							if ($timeNow > $closeTime && $timeNow >= $openTime)
+							if ($timeNow > $closeTime && $timeNow <= $openTime)
 							{
 								echo"<option>Restaurant Closed</option>";
 								$cafeClosed = true;
