@@ -1,9 +1,9 @@
 -- Test SQL File to populate DB with basic data
 
 -- Database component, not valid for Assignment on Alacritas
-DROP DATABASE IF EXISTS UTasEats;
-CREATE DATABASE UTasEats;
-USE UTasEats;
+DROP DATABASE IF EXISTS brycea;
+CREATE DATABASE brycea;
+USE brycea;
 
 -- Cafe table - for storing the different cafes, and various information about them
 CREATE TABLE cafe (
