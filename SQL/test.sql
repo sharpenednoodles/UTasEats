@@ -80,14 +80,32 @@ INSERT INTO item_to_cafe VALUES (1, 1);
 INSERT INTO item_to_cafe VALUES (1, 2);
 INSERT INTO item_to_cafe VALUES (1, 3);
 
-INSERT INTO masterFoodList(name, price, description, type) VALUES('Lazenbys Sample Item 1', 4, 'Sample Lazenbys food', '1');
+INSERT INTO masterFoodList(name, price, description, type) VALUES('Shepards Pie', 12, 'Tasty potato pie', '1');
 INSERT INTO item_to_cafe VALUES (2, 1);
 
-INSERT INTO masterFoodList(name, price, description, type) VALUES('Suzy Lee Sample Item 1', 9.5, 'Sample Suzy lee food', '1');
+INSERT INTO masterFoodList(name, price, description, type) VALUES('Sushi', 9.5, 'Single Sushi Roll', '1');
 INSERT INTO item_to_cafe VALUES (3, 2);
 
-INSERT INTO masterFoodList(name, price, description, type) VALUES('Trade Table Sample Item 2', 3.2, 'Sample trade table drink', '2');
+INSERT INTO masterFoodList(name, price, description, type) VALUES('Butter Beer', 3.2, 'You will make a fine beater Harry', '2');
 INSERT INTO item_to_cafe VALUES (4, 3);
+
+INSERT INTO masterFoodList(name, price, description, type) VALUES('Sandwich', 7.5, 'Fresh sandwiches from last week', '1');
+INSERT INTO item_to_cafe VALUES (5, 1);
+INSERT INTO item_to_cafe VALUES (5, 2);
+INSERT INTO item_to_cafe VALUES (5, 3);
+
+INSERT INTO masterFoodList(name, price, description, type) VALUES('Yoo Mhom Ghey', 20, 'Traditional Thai Dish', '1');
+INSERT INTO item_to_cafe VALUES (6, 2);
+
+INSERT INTO masterFoodList(name, price, description, type) VALUES('Chocolate Bar', 5.5, 'Overpriced Cadbury bar', '1');
+INSERT INTO item_to_cafe VALUES (7, 1);
+INSERT INTO item_to_cafe VALUES (7, 2);
+INSERT INTO item_to_cafe VALUES (7, 3);
+
+INSERT INTO masterFoodList(name, price, description, type) VALUES('Fiji Water', 10, 'Tap water filled straight into old Fiji water bottles', '2');
+INSERT INTO item_to_cafe VALUES (8, 1);
+INSERT INTO item_to_cafe VALUES (8, 2);
+INSERT INTO item_to_cafe VALUES (8, 3);
 
 -- User Account types
 CREATE TABLE accountType (
@@ -137,7 +155,7 @@ CREATE TABLE users (
 ) ENGINE=InnoDB;
 
 -- User sample data
-INSERT INTO users (username, password, accountTypeKey, firstName, lastName, CCnumber, CCName, CCCVC, CCExpDate, idNumber, creationTimeStamp, accountBalance, gender, email) VALUES (
+INSERT INTO users (username, password, accountTypeKey, firstName, lastName, CCnumber, CCName, CCCVC, CCExpDate, idNumber, creationTimeStamp, accountBalance, gender, email, imagePath) VALUES (
 	'DB6969',
 	-- password in plaintext = theGame1!
 	'$2y$10$zhkg2E0eHHSnS0JhqGnMDeZekqgKcwpgEIz7z1peUUDnhfK1pvnZK',
@@ -152,7 +170,104 @@ INSERT INTO users (username, password, accountTypeKey, firstName, lastName, CCnu
 	now(),
 	999.99,
 	'male',
-	'johnsmith@gmail.com'
+	'johnsmith@gmail.com',
+	'uploads/profileIMG/portrait-of-john-smith.jpg'
+);
+
+INSERT INTO users (username, password, accountTypeKey, firstName, lastName, CCnumber, CCName, CCCVC, CCExpDate, idNumber, creationTimeStamp, accountBalance, gender, email, imagePath) VALUES (
+	'BM4988',
+	-- password in plaintext = theGame1!
+	'$2y$10$offpxId36YBNdXdlZ3443es3ZEpf9EWyFIAVr0hu9eMTgfE446Wla',
+	2,
+	'Varg',
+	'Vikernes',
+	'4077804759336493',
+	'MR VARG VIKERNES',
+	'666',
+	'06/66',
+	'666',
+	now(),
+	0.00,
+	'male',
+	'ikilledeuronymous@yahoo.com',
+	'uploads/profileIMG/varg.jpg'
+);
+
+INSERT INTO users (username, password, accountTypeKey, firstName, lastName, CCnumber, CCName, CCCVC, CCExpDate, idNumber, creationTimeStamp, accountBalance, gender, email, imagePath) VALUES (
+	'CM8023',
+	-- password in plaintext = theGame1!
+	'$2y$10$3Az1vwN1Pc9yDDkEV7q7c.RiDH.lLCfiKnBbCrecjqK0hMD9QVJ3q',
+	3,
+	'Jim',
+	'Pickens',
+	'5123840312092067',
+	'MR JIM PICKENS',
+	'234',
+	'06/23',
+	'888888',
+	now(),
+	50.00,
+	'male',
+	'jimpickens@hotmail.com',
+	'uploads/profileIMG/jim-pickens.jpg'
+);
+
+INSERT INTO users (username, password, accountTypeKey, firstName, lastName, CCnumber, CCName, CCCVC, CCExpDate, idNumber, creationTimeStamp, accountBalance, gender, email, imagePath, cafeEmployment) VALUES (
+	'CS4021',
+	-- password in plaintext = theGame1!
+	'$2y$10$Ekz18PeQnDZ/soe4i8HTWurj5tjjlNqRjpyAN9r9KhIJVp2WUSG6a',
+	4,
+	'Mark',
+	'Corrigan',
+	'4070397998697590',
+	'MR MARK CORRIGAN',
+	'123',
+	'06/17',
+	'123445',
+	now(),
+	69.00,
+	'male',
+	'chancewouldbeafinething@gmail.com',
+	'uploads/profileIMG/mark.jpg',
+	2
+);
+
+INSERT INTO users (username, password, accountTypeKey, firstName, lastName, CCnumber, CCName, CCCVC, CCExpDate, idNumber, creationTimeStamp, accountBalance, gender, email, imagePath) VALUES (
+	'UE9248',
+	-- password in plaintext = theGame1!
+	'$2y$10$B3iPjB0D3ys0mtZXX/nUfOMyjMZF4Q2kkD/ysp./xusibXtOxtABW',
+	5,
+	'Rolf',
+	'Harris',
+	'5496261213228586',
+	'MR ROLF HARRIS',
+	'321',
+	'06/27',
+	'678234',
+	now(),
+	666.00,
+	'male',
+	'iamnotapedo@gmail.com',
+	'uploads/profileIMG/rolf.jpg'
+);
+
+INSERT INTO users (username, password, accountTypeKey, firstName, lastName, CCnumber, CCName, CCCVC, CCExpDate, idNumber, creationTimeStamp, accountBalance, gender, email, imagePath) VALUES (
+	'US1963',
+	-- password in plaintext = theGame1!
+	'$2y$10$YQkh0BLCSmO5toOC.pwIoeicIILjYkakxz3Gn0iP7ffjiWTQt3MOW',
+	6,
+	'Bryce',
+	'Andrews',
+	'5306934644468423',
+	'MR BRYCE ANDREWS',
+	'214',
+	'06/17',
+	'204552',
+	now(),
+	00.00,
+	'male',
+	'brycea@utas.edu.au',
+	'uploads/profileIMG/ic_face.png'
 );
 
 -- Store order data

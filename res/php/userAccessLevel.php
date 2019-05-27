@@ -108,7 +108,7 @@ function welcomeMessage($accessLevel)
 			$welcomeString = "Hello Board Director. Are you ready to waste all our money? You can manage user permissions within the side bar.";
 			break;
 		case UserAccessLevel::BoardMember:
-			$welcomeString = "Wassup board member? The master list can be manaaged within the side bar.";
+			$welcomeString = "Wassup board member? The master list can be managed within the side bar.";
 			break;
 		case UserAccessLevel::CafeManager:
 			$welcomeString = "Welcome Manager. Hope you are ready to work for that extra 50 cents an hour! You can manage your restuarants menu below.";
