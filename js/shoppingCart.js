@@ -1,8 +1,11 @@
-
+//Handles the shopping cart interactivity on the client side
+//Used on all cafe pages
+//TODO: add cookies to store cafe cart items
 var items = [];
 var total = 0;
 var cafe;
-//Update quantities
+
+//Update quantities when the user adds items to the cart
 $("tr").change(function()
 {
 	var itemID = $(this).attr("id");
@@ -15,6 +18,7 @@ $("tr").change(function()
 	buildCafeCart();
 });
 
+//Builds the cafe cart object so the user can see the items in the cart
 function buildCafeCart()
 {
 	//console.log(items);
@@ -41,7 +45,7 @@ function buildCafeCart()
 //BootStrap Spinner override for cart functionality
 $("input[type='number']").inputSpinner();
 
-//Send the item ID, and the quantity for the order to be processed by php POST methods
+//Send the item ID, and the quantity for the order to be processed by php POST form submission
 function buildPostSubmission()
 {
 	var j = 0;
@@ -59,9 +63,8 @@ function buildPostSubmission()
 	$("#orderForm").append("<input type = 'hidden' name='cafe' value="+$("#orderForm").attr("cafe")+">");
 }
 
-
 //Handle form submission
-//Need to check whether the user can afford to pay for the items
+//TODO Need to check whether the user can afford to pay for the items client side too
 $("#checkOutButton").click(function()
 {
 	buildPostSubmission();

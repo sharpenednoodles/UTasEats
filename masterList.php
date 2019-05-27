@@ -1,5 +1,6 @@
 <!--KIT202 Assignment 2 - Bryce Andrews 204552-->
 <?php
+//Handle item logic before loading page
 session_start();
 require("res/php/userAccessLevel.php");
 require("res/db/dbConn.php");
@@ -22,11 +23,13 @@ switch((int)$_SESSION['accessLevel'])
 	break;
 }
 
+$debug = true;
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Populate form from DB
+// Populate item types and available cafes from DB
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//Get cafe list from the DB and store in array
+//Get cafe list for UI from the DB and store in array
 $getCafeQuery = ("SELECT cafeID, name FROM cafe");
 $getCafes = $conn->query($getCafeQuery);
 if ($getCafes->num_rows > 0)
@@ -48,12 +51,14 @@ if ($getFoodTypes->num_rows > 0)
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Form Submission Logic handling
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//Form Submission Logic handler
+//New item submission
 if (isset($_POST['itemName']))
 {
 	//Get item cafe from input
-
 	//Browse the array of cafe names, and populate array from POST variables named by the cafe name keys
 	foreach ($cafeNames as $cafeID => $cafeName)
 	{
@@ -63,7 +68,7 @@ if (isset($_POST['itemName']))
 		}
 	}
 
-	//Add to DB
+	//Find ID value for the selected food type from DB to insert
 	$foodType = array_search($_POST['itemType'], $foodTypes);
 	$insertItem = $conn->prepare("INSERT INTO masterFoodList (name, price, description, type) VALUES (?,?,?,?)");
 	$insertItem->bind_param("sdsi", $_POST['itemName'], $_POST['itemPrice'], $_POST['itemDescription'], $foodType);
@@ -71,7 +76,7 @@ if (isset($_POST['itemName']))
 	$itemID = $conn->insert_id;
 	$insertItem->close();
 
-	//Loop over all cafes selected with appropriate cafeIDs
+	//Loop over all cafes selected with appropriate cafeIDs and add them to the item_to_cafe pivot table if they were selected
 	$insertCafe = $conn->prepare("INSERT INTO item_to_cafe (itemID, cafeID) VALUES (?, ?)");
 	foreach ($cafeToAdd as $cafeID)
 	{
@@ -81,7 +86,7 @@ if (isset($_POST['itemName']))
 	$insertCafe->close();
 }
 
-
+//Editing item submission
 if (isset($_POST['itemNameEdit']))
 {
 	//Browse the array of cafe names, and populate array from POST variables named by the cafe name keys
@@ -100,11 +105,11 @@ if (isset($_POST['itemNameEdit']))
 	$editStatement->execute();
 	$editStatement->close();
 
-	//Delete old item to cafe entries
-	//TODO only do this on changes
-	if(isset($_POST['1']) || isset($_POST['2']) || isset($_POST['3']))
-	{
 
+	//Check whether we are editing masterlist, or just a single cafe, then add/delete from the item_to_cafe pivot table as necessary
+	if(isset($_POST['singleCafeID']) == false)
+	{
+		//We are running the master list, delete all exisitng entries, and create a new item_to_cafe entries for the selected cafes
 		$deleteCafe = $conn->prepare("DELETE from item_to_cafe WHERE itemID = ?");
 		$deleteCafe->bind_param("i", $itemID);
 		$deleteCafe->execute();
@@ -117,13 +122,33 @@ if (isset($_POST['itemNameEdit']))
 			$insertCafe->execute();
 		}
 		$insertCafe->close();
+
+	}
+	else
+	{
+		//Only delete from single cafe, as cafe manager only has access to one cafe
+		$deleteCafe = $conn->prepare("DELETE from item_to_cafe WHERE itemID = ? AND cafeID = ?");
+		$deleteCafe->bind_param("ii", $itemID, $_POST['singleCafeID']);
+		$deleteCafe->execute();
+		$deleteCafe->close();
+
+		//Add the new cafe entries to the pivot table if we are adding to the cafe selection (as opposed of only removing)
+		if($_POST['itemActive'] == 'true')
+		{
+			$insertCafe = $conn->prepare("INSERT INTO item_to_cafe (itemID, cafeID) VALUES (?, ?)");
+			$insertCafe->bind_param("ii", $itemID, $_POST['singleCafeID']);
+			$insertCafe->execute();
+			$insertCafe->close();
 		}
+	}
 }
 
-//Add date as an edit
+//Add expiration dates to the DB if set
+//TODO handle removal of expiry dates to items
 if(isset($_POST['startDate']) && isset($itemID))
 {
 	//update statement to add time
+	//Convert the submitted time stamp to the DB format
 	$SQLDate = date_format(date_create_from_format('d/m/Y', $_POST['startDate']), 'Y-m-d');
 	$updateStartDate = $conn->prepare("UPDATE masterFoodList SET startDate = ? WHERE itemID = ?");
 	$updateStartDate->bind_param("si", $SQLDate, $itemID);
@@ -133,6 +158,7 @@ if(isset($_POST['startDate']) && isset($itemID))
 if(isset($_POST['endDate']) && isset($itemID))
 {
 	//update statment to add time
+	//Convert the submitted time stamp to the DB format
 	$SQLDate = date_format(date_create_from_format('d/m/Y', $_POST['endDate']), 'Y-m-d');
 	$updateEndDate = $conn->prepare("UPDATE masterFoodList SET endDate = ? WHERE itemID = ?");
 	$updateEndDate->bind_param("si", $SQLDate, $itemID);
@@ -140,10 +166,11 @@ if(isset($_POST['endDate']) && isset($itemID))
 	$updateEndDate->close();
 }
 
-//Iterate over deletion form data
+//Handle Item deletion
 if(isset($_POST['delete']))
 {
 	$deleteStatement = $conn->prepare("DELETE from masterFoodList WHERE itemID = ?");
+	//Iterate over the array for all items to be deleted
 	foreach ($_POST['delete'] as $delID)
 	{
 		$deleteStatement->bind_param("i", $delID);
@@ -151,7 +178,6 @@ if(isset($_POST['delete']))
 	}
 	$deleteStatement->close();
 }
-
 
 //Clear POST variable after processing
 //$_POST = array();
@@ -246,7 +272,7 @@ HEAD;
 							break;
 							case userAccessLevel::CafeManager:
 							case userAccessLevel::CafeStaff:
-							echo "<h5 class='card-title text-center' id='tableType' tableType='single'>".$_SESSION['cafeEmployment']." List Management</h5>";
+							echo "<h5 class='card-title text-center' id='tableType' tableType='".$_SESSION['cafeEmpID']."'>".$_SESSION['cafeEmployment']." List Management</h5>";
 							break;
 						}
 						 ?>
@@ -258,9 +284,9 @@ HEAD;
 								{
 									case userAccessLevel::BoardDirector:
 									case userAccessLevel::BoardMember:
+									case userAccessLevel::CafeManager:
 									buildMasterList(array('Item', 'Price', 'Description', 'Type', 'Cafes'), $conn, $queryMasterList);
 									break;
-									case userAccessLevel::CafeManager:
 									case userAccessLevel::CafeStaff:
 									if ($_SESSION['cafeEmployment'] == 'Lazenbys')
 									{
@@ -282,6 +308,7 @@ HEAD;
 	 				</div>
 	 			</div>
 				<?php
+				//Only display menu controls to some users, and hide only certain buttons from others
 				switch((int)$_SESSION['accessLevel'])
 				{
 					case userAccessLevel::BoardDirector:
@@ -293,28 +320,88 @@ HEAD;
 							<div class="card-body">
 								<h5 class="card-title text-center">Item Controls</h5>
 								<div class="list-group">
+CONTROLS;
+					}
+					switch((int)$_SESSION['accessLevel'])
+					{
+						case userAccessLevel::BoardDirector:
+						case userAccessLevel::BoardMember:
+						echo <<<CONTROLS
 									<button id="newButton" type="button" data-toggle="modal" data-target="#newItemModal" class="list-group-item list-group-item-success list-group-item-action">New Item</button>
 									<button id="deleteButton" type="button" class="list-group-item list-group-item-danger list-group-item-action">Delete</button>
 									<button id="multiDeleteButton" type="button" class="list-group-item list-group-item-warning list-group-item-action">Multi Delete</button>
+CONTROLS;
+						case userAccessLevel::CafeManager:
+						echo <<<CONTROLS
 									<button id="editButton" type="button" data-toggle="modal" data-target="#editItemModal" class="list-group-item list-group-item-info list-group-item-action">Edit Item</button>
 								</div>
 							</div>
 						</div>
 					</div>
 CONTROLS;
-			break;
+					break;
 				}
 				 ?>
 			</div>
+			<?php
+			if ($debug == true)
+			{
+				echo <<<DEBUG
+				<div class="row">
+				<div class="col-sm-12 col-md-4">
+					<div class="card mb-4">
+						<div class="card-body text-center">
+							<h5 class=card-title>Debug: PHP Vars Info</h5>
+							<p class="card-text">
+DEBUG;
+							echo("User name: ".$_SESSION['userID'] ."<br>");
+							echo("First Name: ".$_SESSION['firstName'] ."<br>");
+							echo("Last Name: ".$_SESSION['lastName'] ."<br>");
+							echo("UserAccess level: ".$_SESSION['accessLevel']);
+							echo <<<DEBUG
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-12 col-md-4">
+					<div class="card mb-4">
+						<div class="card-body text-center">
+							<h5 class=card-title>Debug: Session Variable Contents</h5>
+							<p class="card-text">
+DEBUG;
+							print_r($_SESSION);
+							 echo <<<DEBUG
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-12 col-md-4">
+					<div class="card mb-4">
+						<div class="card-body text-center">
+							<h5 class=card-title>Debug: Post Variable Contents</h5>
+							<p class="card-text">
+DEBUG;
+							print_r($_POST);
+							echo <<<DEBUG
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+DEBUG;
+			}
+			 ?>
 			<div class="row">
 				<div class="col-sm-12 col-md-10">
 					<div class="card mb-4">
 						<div class="card-body text-center">
 							<h5 class="card-title">Timed Items</h5>
 							<?php
+							//SQL query to display items with set expiry dates
 							$fetchItemDates = "SELECT masterFoodList.name as name, foodType.name as type, IFNULL(DATE_FORMAT(startDate, \"%W, %D %M, %Y\"), 'N/A')
 							as startDate, IFNULL(DATE_FORMAT(endDate, \"%W, %D %M, %Y\"),'N/A') as endDate
 							FROM masterFoodList inner join foodType on masterFoodList.type = foodType.typeID where not startDate = \"N/A\" or not endDate = \"N/A\"";
+							//Build the table, see generateTable.php for details
 							buildGenericList(array('Item', 'Type', 'Start Date', 'End Date'), array('name', 'type', 'startDate', 'endDate'), $conn, $fetchItemDates);
 							?>
 						</div>
@@ -324,7 +411,7 @@ CONTROLS;
 	</div>
 </main>
 <?php
-//TODO: get categories and resturants from database
+//Modal defintions (The pop up windows)
  ?>
 <modalNew>
 	<div class="modal fade" id="newItemModal" tabindex="-1" role="dialog" aria-labelledby="New Item" aria-hidden="true">
@@ -357,6 +444,7 @@ CONTROLS;
 	                  <label for="newItemType">Item Type</label>
 	                  <select class="form-control" id="newItemType" name="itemType">
 												<?php
+												//Populate availble food types
 													foreach ($foodTypes as $key => $foodName)
 													{
 														echo "<option>$foodName</option>";
@@ -373,6 +461,7 @@ CONTROLS;
 										<?php
 										switch((int)$_SESSION['accessLevel'])
 										{
+											//Populate availble restuarant selectors
 											case userAccessLevel::BoardDirector:
 											case userAccessLevel::BoardMember:
 											foreach ($cafeNames as $cafeID => $cafeName)
@@ -382,6 +471,13 @@ CONTROLS;
 												echo "<label class=\"form-check-label\"  for=\"$cafeID\">$cafeName</label>";
 												echo "</div>";
 											}
+											break;
+											case userAccessLevel::CafeStaff:
+											case userAccessLevel::CafeManager:
+											echo "<div class=\"form-check form-check-inline\">";
+											echo "<input class=\"form-check-input newRestaurantSelector\" name=\"".$_SESSION['cafeEmpID']."\" type=\"checkbox\" value=\"true\"checked>";
+											echo "<label class=\"form-check-label\"  for=\"".$_SESSION['cafeEmpID']."\">".$_SESSION['cafeEmployment']."</label>";
+											echo "</div>";
 											break;
 										}
 										 ?>
@@ -435,6 +531,7 @@ CONTROLS;
 	                  <label for="editItemType">Item Type</label>
 	                  <select class="form-control" id="editItemType" name="itemTypeEdit">
 												<?php
+												//Populate available food types
 													foreach ($foodTypes as $key => $foodName)
 													{
 														echo "<option typeID=\"$key\">$foodName</option>";
@@ -451,6 +548,7 @@ CONTROLS;
 										<?php
 										switch((int)$_SESSION['accessLevel'])
 										{
+											//Populate avaialble resturant selectors
 											case userAccessLevel::BoardDirector:
 											case userAccessLevel::BoardMember:
 											foreach ($cafeNames as $cafeID => $cafeName)
@@ -460,6 +558,13 @@ CONTROLS;
 												echo "<label class=\"form-check-label\"  for=\"$cafeID\">$cafeName</label>";
 												echo "</div>";
 											}
+											break;
+											case userAccessLevel::CafeStaff:
+											case userAccessLevel::CafeManager:
+											echo "<div class=\"form-check form-check-inline\">";
+											echo "<input class=\"form-check-input editRestaurantSelector\" parseName=\"".$_SESSION['cafeEmployment']."\" name=\"".$_SESSION['cafeEmpID']."\" type=\"checkbox\" value=\"true\">";
+											echo "<label class=\"form-check-label\"  for=\"".$_SESSION['cafeEmpID']."\">".$_SESSION['cafeEmployment']."</label>";
+											echo "</div>";
 											break;
 										}
 										 ?>
@@ -585,18 +690,60 @@ CONTROLS;
 		//Override bootstrap new item form submission
     $("#saveNewButton").click(function()
 		{
+			//If data is valid, submit form
 			if (validateNewItem() == true)
 			{
 				$("#newItemForm").submit();
 			}
     });
 
-		//Override bootstrap new item form submission
+		//Override bootstrap edit item form submission, and add additional data for Cafe Manager edit access if applicable
     $("#saveEditButton").click(function()
 		{
-
+			//If data is valid submit form
 			if (validateEditItem() == true)
 			{
+				if ($("#tableType").attr("tabletype") != "master")
+				{
+					var cafeID = $("#tableType").attr("tabletype");
+					$("#editItemForm").append("<input type='hidden' name='singleCafeID' value='"+cafeID+"'>");
+
+					//Determine the state of the resturant switch, only if we are a cafe manager with access to a single menu
+					if ($(".editRestaurantSelector").prop('checked') == true)
+					{
+						$("#editItemForm").append("<input type='hidden' name='itemActive' value='true'>");
+					}
+					else
+					{
+						//Check if the item is only available at one resturant, if so, deactivate it with an expiry rather than a deactivate flag
+						if (restaurantArray.length > 1)
+						{
+							$("#editItemForm").append("<input type='hidden' name='itemActive' value='false'>");
+						}
+						else
+						{
+							$("#editItemForm").append("<input type='hidden' name='itemActive' value='true'>");
+							//Setting the items expiry to a day before the current date, as items with no cafes registered in the pivot table will disappear entirely from the site UI
+							yesterday = new Date();
+							var yyyy = yesterday.getFullYear();
+							//Jan is 0, need to fix
+							var mm = yesterday.getMonth() + 1;
+							//Want yesterdays day
+							var dd = yesterday.getDate() - 1;
+
+							//Add leading zeroes if needed
+							if (dd < 10)
+							{
+								dd = '0'+dd;
+							}
+							if (mm < 10)
+							{
+								mm = '0'+mm;
+							}
+							$("#editItemForm").append("<input type='hidden' name='endDate' value='"+dd+"/"+mm+"/"+yyyy+"'>");
+						}
+					}
+				}
 				$("#editItemForm").submit();
 			}
     });

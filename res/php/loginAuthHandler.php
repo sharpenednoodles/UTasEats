@@ -1,5 +1,5 @@
 <?php
-//Handle login authentication here
+//Handle login authentication logic here
 session_start();
 include("../db/dbConn.php");
 include("../db/dbQueries.php");
@@ -31,6 +31,7 @@ if (isset($_POST['userID']))
 
 	$rows = mysqli_num_rows($result);
 
+//Check to see whether the USERID exists, the password matches, and the account is currently marked as active, before authenticating
 	if ($rows == 1 && password_verify($password, $hash) && $activeAccount == true)
 	{
 		//Correct password, login
@@ -46,6 +47,7 @@ if (isset($_POST['userID']))
 	}
 	else
 	{
+		//Unable to authenticate, or user account is disabled
 		//redirect to error page
 		header('location: ../../error.php');
 	}

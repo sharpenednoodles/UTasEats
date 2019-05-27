@@ -58,10 +58,12 @@ $description = getDescription($conn, $restaurant);
 					 <?php
 					 if ($_SESSION["loggedIn"] == true)
 					 {
+						 //Creates the cafe menu, see generateTable.php for details
 						 	buildCafeMenu(array('Item', 'Price', 'Type', 'In Cart'), $conn, $queryTradeTableList, $_SESSION["loggedIn"], false);
 					 }
 					 else
 					 {
+						 //Creates the cafe menu, see generateTable.php for details
 						 buildCafeMenu(array('Item', 'Price', 'Type'), $conn, $queryTradeTableList, $_SESSION["loggedIn"], false);
 					 }
 					 ?>
@@ -72,6 +74,7 @@ $description = getDescription($conn, $restaurant);
 			 <?php
 			  if($_SESSION['loggedIn'] == true)
 				{
+					//Show the cart controls
 					require("res/php/itemCartCard.php");
 				}
 			  ?>

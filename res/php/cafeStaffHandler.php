@@ -1,5 +1,5 @@
 <?php
-//Add funds via a POST form capture
+//Handler to modify cafe staffs current employer details
 session_start();
 require("../db/dbConn.php");
 require("../db/dbQueries.php");
@@ -14,7 +14,6 @@ if ($getCafes->num_rows > 0)
 		$cafeNames[$row['cafeID']] = $row["name"];
 	}
 }
-
 
 if(isset($_POST["cafeChange"]))
 {

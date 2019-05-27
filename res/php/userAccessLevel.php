@@ -1,4 +1,7 @@
 <?php
+//All user access level permissions are stored here
+//Provides a series of helper functions for anything serverside related to user permission levels
+
 //Enum to represent user access levels
 abstract class UserAccessLevel
 {

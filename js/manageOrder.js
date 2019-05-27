@@ -1,5 +1,6 @@
-
+//Handles the different order stages of the cafe order cards for submission to PHP
 //Different button listeners
+
 $(".orderPaidButton").click(function() {
  var ID = $(this).attr("orderID");
  $("#manageOrderForm").append("<input type='hidden' name='markPaid' value='"+ID+"'>");

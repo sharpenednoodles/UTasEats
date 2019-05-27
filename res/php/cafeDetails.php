@@ -1,5 +1,6 @@
 <?php
-//Provided utilities related to cafe SQLI information
+//This page includes a handful of functions to get current cafe data from the DB as required.
+//Will also make the descriptions avaiable, wherever this page is included
 
 //Get restaurant descriptions from the DB
 $LazenbysDescription = getDescription($conn, "Lazenbys");

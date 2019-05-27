@@ -1,9 +1,12 @@
 <?php
-//Generate html tables from SQL data for the menu contents
+//A series of helper functions to generate various types of HTML tables, given various parameters
+//All tables pull data directly from the Database
+//Some functions are internal helper functions, and SHOULD NOT be called directly
 
-//TODO, reference the SQL strings directly so they do not need to be passed to function
+//See each function for details of it's functionality
+
+
 //Build the master list from an array of headers, the DB connection and the SQL query
-
 function buildMasterList($tableHeaders, $sqli, $SQLQuery)
 {
 	buildHeaders($tableHeaders);
@@ -19,7 +22,7 @@ function buildGenericList($tableHeaders, $sqlHeaders, $sqli, $SQLQuery)
 	finishTable();
 }
 
-//Same as above, but we can specify a custom class for javascript interactivity, and an optional id from the table to classify with
+//Same as above, but we can specify a custom class for javascript interactivity, and an optional id from the table to classify row data with
 function buildCustomGenericList($tableHeaders, $sqlHeaders, $sqli, $SQLQuery, $customClass, $customID)
 {
 	buildHeaders($tableHeaders);
@@ -27,6 +30,7 @@ function buildCustomGenericList($tableHeaders, $sqlHeaders, $sqli, $SQLQuery, $c
 	finishTable();
 }
 
+//Build the cafe menu for the user facing side, providing the table header labels,
 function buildCafeMenu($tableHeaders, $sqli, $SQLQuery, $isCart, $includeExpiry)
 {
 	buildHeaders($tableHeaders);
@@ -104,7 +108,7 @@ function buildCafeBody($rowLabels, $sqli, $SQLQuery, $isCart, $includeExpiry)
 		while($row = $tableContent->fetch_assoc())
 		{
 			//If includeExpiry is true we print regardelss, otherwise we check the current date against the expiry and start times - which we will set to true if the values are N/A
-			if ($includeExpiry == true || ((($row['endDate'] >= $currentDate) || $row['endDate'] == "N/A") && (($row['startDate'] <= $currentDate) || $row['startDate'] == "N/A")))
+			if ($includeExpiry == true || ((($row['endDate'] >= $currentDate) || ($row['endDate'] == "N/A") || $row['endDate'] == "0000-00-00") && (($row['startDate'] <= $currentDate) || ($row['startDate'] == "N/A" || $row['startRow'] == "0000-00-00"))))
 			{
 				//TODO check if item is in valid range before echoing table
 				echo("<tr id =".$row["itemID"].">");
@@ -156,7 +160,8 @@ function buildMasterBody($sqli, $SQLQuery)
 
 	echo "</tbody>";
 }
-//Close table tag
+
+//Close table tag - HELPER FUNCTION - DO NOT CALL DIRECTLY
 function finishTable()
 {
 	echo "</table>";
@@ -213,6 +218,7 @@ function buildOrderCards($sqli, $SQLQuery, $completed)
 	echo "</div>";
 }
 
+//Function to calcuate the status of a users order, given certain parameters
 function calculateOrderStatus($paid, $orderCompleted, $orderPickedUp)
 {
 	if ($paid == false)
@@ -231,6 +237,7 @@ function calculateOrderStatus($paid, $orderCompleted, $orderPickedUp)
 	return "Completed";
 }
 
+//Define the bootstrap specific card colours for order cards
 function getCardColour($status)
 {
 	if ($status =="Unpaid")
@@ -247,5 +254,4 @@ function getCardColour($status)
 	}
 	return "secondary";
 }
-
  ?>

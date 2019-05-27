@@ -1,4 +1,6 @@
-<!--Swap this to a PHP include to hide when not logged in -->
+<?php
+//Cart dropdown HTML element for the dropdown cart found in the navbar
+ ?>
 <div class="nav-item dropdown">
 	<a class="nav-link dropdown-toggle text-light" href="#" id="cartDropdown" data-toggle="dropdown"><i class="material-icons">shopping_cart</i></a>
 	<div class="dropdown-menu dropdown-menu-right">

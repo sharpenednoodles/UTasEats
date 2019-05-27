@@ -1,11 +1,10 @@
 <?php
-//Handle menu logic hebre
+//Handle ordering items from the menu here
 
 session_start();
 require("../db/dbConn.php");
 require("../db/dbQueries.php");
 
-//If form data posix_set
 //Todo: check whether account has enough money, else send them to a not enough momey page
 if (isset($_POST['itemCount']))
 {

@@ -1,3 +1,6 @@
+<?php
+//HTML snippet for the Add Funds pill found wihtin the user page
+ ?>
 <h4>Add funds</h4>
 <div class="row">
 	<div class="col-12">

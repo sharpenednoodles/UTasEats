@@ -1,3 +1,6 @@
+<?php
+//HTML snippet for a user card that gives the user the ID of their newly created profile
+ ?>
 <div class="col-sm-12 col-md-7">
 	<div class="card mb-4">
 		<div class="card-body text-center">

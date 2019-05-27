@@ -1,8 +1,11 @@
+<?php
+//HTML snippet for the manaage cafe staff pill in the user page
+ ?>
 <h4>Manage Cafe Staff</h4>
 <p>Change Cafe Staff by clicking on a user below.</p>
 <div class="table-responsive">
 	<?php
-	//Get cafe list from the DB and store in array
+	//Get cafe list from the DB and store in array for the cafe option dropdown
 	$getCafeQuery = ("SELECT cafeID, name FROM cafe");
 	$getCafes = $conn->query($getCafeQuery);
 	if ($getCafes->num_rows > 0)

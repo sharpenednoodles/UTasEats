@@ -1,4 +1,4 @@
-//Basic JS to handle staff change modal
+//Basic JS to handle staff change modal in the cafe staff pill
 $(".StaffSelect").click(function(){
 	var ID = $(this).attr("id");
 	var firstName = $(this).find("td:nth-child(2)").text();

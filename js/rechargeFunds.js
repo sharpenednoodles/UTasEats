@@ -1,4 +1,4 @@
-//Recharge functionality
+//Recharge functionality, handle the inputs for the add funds pill in the users profile page
 $(".recharge").click(function() {
 	var amount = $(this).attr("amount");
 	var ccNum = $("#addFundsForm").attr("lastNum");

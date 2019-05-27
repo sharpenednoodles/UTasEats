@@ -1,6 +1,8 @@
+//Code responsible for building and populating the cafe cart in the navbar drop down menu
 $("#cartDropdown").click(function() {
 	//alert("Menu Clicked");
 
+//Todo fetch cafe IDs from the Databse instead of hardcoding
 	if (cafe == 1)
 	{
 		$("#lazenbysDropdownAnchor").empty();

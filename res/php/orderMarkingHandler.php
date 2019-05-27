@@ -1,4 +1,5 @@
 <?php
+//Handler for changing the status of an order card via POST submission
 session_start();
 require("../db/dbConn.php");
 require("../db/dbQueries.php");

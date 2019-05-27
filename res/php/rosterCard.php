@@ -1,3 +1,6 @@
+<?php
+//DEPRECATED - HTML elment to display a card on the user profile for upcoming rosters
+ ?>
 <div class="col-sm-12 col-md-4">
 	<div class="card mb-4">
 		<div class="card-body text-center">

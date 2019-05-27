@@ -1,3 +1,6 @@
+<?php
+//HTML components for the item cart UI for the cafe pages
+ ?>
 <div class="col-sm-12 col-lg-4">
  <div class="card mb-4">
 	 <div class="card-body">
@@ -49,7 +52,7 @@
 							}
 							else
 							{
-								//Print the list of collection times
+								//Print the list of collection times in 15 minute increments for the drop down
 								$increments = ($closeTime - $roundedNow)/ (60*15);
 								for ($i = 0; $i <= $increments; $i++)
 								{
@@ -63,6 +66,7 @@
 				    </select>
 				  </div>
 					<?php
+					//Hide the checkout button if the cafe isn't open
 					if ($cafeClosed != true)
 					{
 						echo "<button type='button' id='checkOutButton' class='btn btn-dark' name='button'>Check Out</button>";

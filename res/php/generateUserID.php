@@ -1,5 +1,6 @@
 <?php
-//TODO check existing IDs in DB
+//Generates a random userID for a new account given the accounts permission level
+//Currently does not chack whether the generatedID is unique, be sure to check whether the ID exists when using this function
 
 function generateUserID($userType)
 {

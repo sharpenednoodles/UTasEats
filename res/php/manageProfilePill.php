@@ -1,3 +1,7 @@
+<?php
+//HTML snipped for the Manage profile pill in the user profile
+//TODO provide add client side verification
+ ?>
 <h4>Manage Profile</h4>
 <form class="" action="res/php/profileImageUploadHandler.php" method="post" enctype="multipart/form-data">
 	<div class="form-group">

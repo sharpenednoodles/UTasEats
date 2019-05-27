@@ -1,3 +1,7 @@
+<?php
+//HTML snippet to display the users current Orders
+//TODO, populate the status column with the users actual order status
+ ?>
 <h4>View My Orders</h4>
 <div class="table-responsive">
 	<?php

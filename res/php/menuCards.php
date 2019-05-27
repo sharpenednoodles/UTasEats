@@ -1,3 +1,6 @@
+<?php
+//HTML elements for the cafe cards
+ ?>
 <div class="col-sm-12 col-md-4">
 	<div class="card mb-4">
 		<img class="card-img-top" src="res/img/LazenbysBG-2.jpg" alt="Card image cap">

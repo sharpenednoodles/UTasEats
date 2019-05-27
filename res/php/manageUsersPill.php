@@ -1,3 +1,6 @@
+<?php
+//HTML snippet for the Manage Users pill in the user account page.
+ ?>
 <h4>Manage User Accounts</h4>
 <p>Change user account permissions by clicking on a user below.</p>
 <div class="table-responsive">
@@ -13,12 +16,13 @@
 		}
 	}
 
-//Hide invalid permissions for user upgrade prompt
+//Hide invalid permissions from user upgrade prompt
 	switch((int)$_SESSION['accessLevel'])
 	{
 		case userAccessLevel::CafeManager:
-		unset($permissionLevelNames[2]);
+		unset($permissionLevelNames[3]);
 		case userAccessLevel::BoardMember:
+		unset($permissionLevelNames[2]);
 		unset($permissionLevelNames[1]);
 		break;
 	}

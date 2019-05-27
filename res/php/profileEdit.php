@@ -1,4 +1,6 @@
 <?php
+//Handler for updating user account details
+//TODO include more attributes for the user to be able to update
 session_start();
 require("../db/dbConn.php");
 require("../db/dbQueries.php");

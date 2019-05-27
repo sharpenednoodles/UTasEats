@@ -1,4 +1,6 @@
 <?php
+//Handler to upload new profile images to site
+//ALACRTIAS DOES NOT HANDLE FILE UPLOADS DUE TO SECURITY SETTINGS
 session_start();
 require("../db/dbConn.php");
 require("../db/dbQueries.php");

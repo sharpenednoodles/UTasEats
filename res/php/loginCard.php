@@ -1,3 +1,6 @@
+<?php
+//HTML snippet for including the login form as a card
+ ?>
 <div class="col-sm-12 col-md-7">
    <div class="card mb-4">
       <div class="card-body">

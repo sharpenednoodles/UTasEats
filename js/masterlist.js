@@ -1,6 +1,9 @@
 //JS code for client side interactivity
+//Uses hidden inputs to transfer data to PHP via POST
+
 var prevRow;
 var multiDelete = false;
+var restaurantArray = [];
 
 //Select multiple behaviour
 $(".clickable").click(function()
@@ -123,11 +126,13 @@ function deleteSelect(selectedColumn)
 	});
 
 
-	//Still missing form processing and resturaunt detection
+	//Edit button, prefilling data for modal
 	$("#editButton").click(function(e)
 	{
 		var itemCount = $("table").find(".table-primary").length;
 		var editID = $("table").find(".table-primary").attr('id');
+
+		//Check the user has an item selected
 		if (itemCount != 0)
 		{
 			//Code to populate edit modal
@@ -138,8 +143,9 @@ function deleteSelect(selectedColumn)
 			var editItemDescription = $("table").find(".table-primary td:nth-child(3)").text();
 			//Not sure how to parse this
 			var editItemResturants  = $("table").find(".table-primary td:nth-child(5)").text();
-			var restaurantArray = editItemResturants.split(", ");
-
+			console.log(editItemResturants);
+			restaurantArray = editItemResturants.split(", ");
+			console.log(restaurantArray);
 			var startDate = $("table").find(".table-primary").attr('startDate');
 			var endDate = $("table").find(".table-primary").attr('endDate');
 
@@ -170,8 +176,6 @@ function deleteSelect(selectedColumn)
 				var element = restaurantArray[i];
 				$("[parsename='"+element+"']").prop('checked', true);
 			}
-
-
 		}
 		else
 		{
@@ -180,20 +184,6 @@ function deleteSelect(selectedColumn)
 		}
 
 	});
-
-
-	$("#saveEditButton").click(function()
-	{
-
-	});
-
-//Format price to decimal, disabled because too slow to process
-/*
-$("#newItemPrice").change(function()
-{
-	 $("#newItemPrice").val(parseFloat($("#newItemPrice").val()).toFixed(2));
-});
-*/
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Data Validation
@@ -214,6 +204,11 @@ function validateNewItem()
 
 function validateEditItem()
 {
+	//If a cafe manager is editing, they have the option of making an item unavailable
+	if($("#tableType").attr("tabletype") != 'master')
+	{
+		return true;
+	}
 	if (validateItemName("#editItemName") == false || validateItemPrice("#editItemPrice") == false || validateItemType("#editItemType") == false || validateItemDescrip("#editItemDescription") == false || validateEditItemRestaurant() == false)
 	{
 		return false;
@@ -277,10 +272,6 @@ function validateItemDescrip(itemDescrip)
 
 function validateNewItemRestaurant()
 {
-	if ($("#tableType").attr("tabletype") == 'single')
-	{
-		return true;
-	}
 	if ($('.newRestaurantSelector:checkbox:checked').length == 0)
 	{
 		$(".newRestaurantSelector").addClass("is-invalid");
@@ -295,10 +286,6 @@ function validateNewItemRestaurant()
 
 function validateEditItemRestaurant()
 {
-	if ($("#tableType").attr("tabletype") == 'single')
-	{
-		return true;
-	}
 	if ($('.editRestaurantSelector:checkbox:checked').length == 0)
 	{
 		$(".editRestaurantSelector").addClass("is-invalid");
