@@ -288,6 +288,13 @@ it and may not have 2 consecutive period characters.
 
 What a *shitty* assignment spec...
 
+## Final Marks
+### Part 1
+15/15 - 100%
+
+### Part 2
+25/25 - 100%
+
 ## Authors
 
 * **Bryce Andrews** - [sharpenednoodles](https://github.com/sharpenednoodles)
